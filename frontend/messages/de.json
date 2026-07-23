@@ -1,0 +1,66 @@
+{
+  "Hero": {
+    "software": "SOFTWARE-ENTWICKLER",
+    "frontend": "FRONTEND-ENTWICKLER",
+    "fullstack": "FULL-STACK-ENTWICKLER"
+  },
+  "Titles": {
+    "about": "Über mich",
+    "skills": "Fähigkeiten",
+    "signatureProject": "MEIN SIGNATUR-PROJEKT",
+    "featuredProjects": "HERVORGEHOBENE PROJEKTE",
+    "blogPosts": "AKTUELLE BLOGBEITRÄGE",
+    "allBlogs": "ALLE BLOGBEITRÄGE",
+    "blogSubtitle": "Artikel zu Software, Architektur und Erfahrungen",
+    "allProjects": "ALLE MEINE PROJEKTE",
+    "projectsSubtitle": "SaaS, Mini ERP und Open-Source-Projekte, die ich entwickelt habe",
+    "innovation": "Innovationsorientierte Sicherheit"
+  },
+  "Buttons": {
+    "moreProjects": "Weitere Projekte ansehen",
+    "moreBlogs": "Weitere Blogbeiträge lesen",
+    "githubRepo": "GitHub-Repository ansehen",
+    "liveDemo": "Live-Demo",
+    "read": "Lesen",
+    "sendMessage": "Nachricht Senden",
+    "sendNewMessage": "Neue Nachricht Senden",
+    "sending": "Wird gesendet...",
+    "share": "Teilen",
+    "copyLink": "Link Kopieren",
+    "backToPortfolio": "Zurück zum Portfolio",
+    "viewDetails": "Details ansehen"
+  },
+  "Status": {
+    "loading": "Wird geladen...",
+    "noSignatureProject": "Kein Signatur-Projekt ausgewählt.",
+    "noBlogs": "Noch keine Blogbeiträge veröffentlicht.",
+    "noProjects": "Noch keine Projekte veröffentlicht."
+  },
+  "Form": {
+    "title": "Kontaktiere mich",
+    "subtitle": "Nutzen Sie das untenstehende Formular für Projekte, Jobangebote oder einfach, um Hallo zu sagen. Ich werde mich so schnell wie möglich per E-Mail bei Ihnen melden.",
+    "name": "Vor- und Nachname",
+    "namePlaceholder": "Z.B.: Max Mustermann",
+    "email": "E-Mail-Adresse",
+    "emailPlaceholder": "Z.B.: max@firma.com",
+    "subject": "Betreff",
+    "subjectPlaceholder": "Z.B.: Projektvorschlag",
+    "message": "Nachricht",
+    "messagePlaceholder": "Schreiben Sie Ihre Nachricht hier...",
+    "successTitle": "Nachricht Erhalten!",
+    "successSubtitle": "Vielen Dank für Ihr Interesse. Ich werde mich in Kürze per E-Mail bei Ihnen melden.",
+    "successToast": "Nachricht erfolgreich gesendet!",
+    "robot": "Bitte bestätigen Sie, dass Sie kein Roboter sind."
+  },
+  "Sidebar": {
+    "home": "Startseite",
+    "about": "Über mich",
+    "skills": "Fähigkeiten",
+    "projects": "Projekte",
+    "blog": "Blog",
+    "contact": "Kontakt",
+    "language": "Sprache",
+    "copyEmail": "E-Mail Kopieren",
+    "copied": "Kopiert!"
+  }
+}

@@ -21,6 +21,24 @@ export const upload = multer({
   fileFilter: fileFilter
 });
 
+// 1.5 ATTACHMENT UPLOAD (Disk Storage, All Files Allowed)
+const attachmentStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = 'uploads/attachments/';
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + '-' + file.originalname);
+  }
+});
+
+export const uploadAttachments = multer({
+  storage: attachmentStorage,
+  limits: { fileSize: 25 * 1024 * 1024 }, // 25 MB limit for emails
+});
+
 // 2. WEBP DÖNÜŞTÜRÜCÜ MIDDLEWARE   
 export const convertToWebp = async (req: Request, res: Response, next: NextFunction) => {
   // Eğer dosya yüklenmemişse sonrakine geç (Belki güncelleme işleminde dosya gönderilmemiştir)

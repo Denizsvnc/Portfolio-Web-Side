@@ -1,25 +1,5 @@
-/*
-id: uuid("id").defaultRandom().primaryKey(),
-    
-    icon: varchar("icon", {length: 255}).notNull(),
-
-    title_tr: varchar("title_tr", {length: 255}).notNull(),
-    title_en: varchar("title_en", {length: 255}).notNull(),
-    title_de: varchar("title_de", {length: 255}).notNull(),
-    title_ru: varchar("title_ru", {length: 255}).notNull(),
-
-    element_tr: text("element_tr").notNull(),
-    element_en: text("element_en").notNull(),
-    element_de: text("element_de").notNull(),
-    element_ru: text("element_ru").notNull(),
-
-    button_url: varchar("button_url", {length: 255}).notNull(),
-    queue: integer("queue").notNull().default(0),
-    isActive: boolean("isActive").notNull().default(true),
-*/
-
 export interface createProjects {
-    icon: string;
+    icon?: string;
 
     title_tr: string;
     title_en: string;
@@ -31,8 +11,19 @@ export interface createProjects {
     element_de: string;
     element_ru: string;
 
+    innovation_tr?: string;
+    innovation_en?: string;
+    innovation_de?: string;
+    innovation_ru?: string;
+
+    tech_stack?: string;
     button_url: string;
-    queue: number;
+    demo_url?: string;
+    isSignature?: boolean;
+    queue?: number;
+    isActive?: boolean;
+    attachments?: any;
+    links?: any;
 }
 
 export interface getProjects {
@@ -53,8 +44,19 @@ export interface updateProjects {
     element_de?: string;
     element_ru?: string;
 
+    innovation_tr?: string;
+    innovation_en?: string;
+    innovation_de?: string;
+    innovation_ru?: string;
+
+    tech_stack?: string;
     button_url?: string;
+    demo_url?: string;
+    isSignature?: boolean;
     queue?: number;
+    isActive?: boolean;
+    attachments?: any;
+    links?: any;
 }
 
 export interface deleteProjects {

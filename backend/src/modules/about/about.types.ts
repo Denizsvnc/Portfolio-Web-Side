@@ -8,6 +8,7 @@ export interface createAboutSection {
   text_de: string;
   text_ru: string;
   pp_url: string;
+  cv_url?: string;
 }
 
 export interface updateAboutSection {
@@ -20,6 +21,7 @@ export interface updateAboutSection {
   text_de?: string;
   text_ru?: string;
   pp_url?: string;
+  cv_url?: string;
   is_active?: boolean;
 }
 

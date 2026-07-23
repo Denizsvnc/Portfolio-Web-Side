@@ -66,3 +66,25 @@ export const deleteProject = async (req: Request, res: Response, next: NextFunct
         return next(error);
     }
 };
+
+export const shareProject = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        if (!id || typeof id !== 'string') {
+            return res.status(400).json({ message: "Invalid ID parameter." });
+        }
+        const visitorId = req.visitor?.id;
+        const ipAddress = req.visitor?.ip;
+        const city = req.visitor?.city;
+        const { platform } = req.body;
+
+        const result = await ProjectsService.shareProjectById(id, visitorId, ipAddress, city, platform);
+        const projectItem = result[0];
+        if (!projectItem) {
+            return res.status(404).json({ message: "Project not found." });
+        }
+        return res.status(200).json({ message: "Project share logged successfully.", data: projectItem });
+    } catch (error) {
+        return next(error);
+    }
+};

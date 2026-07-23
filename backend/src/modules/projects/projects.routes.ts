@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { createProject, getAllProjects, getProject, updateProject, deleteProject } from './projects.controller';
+import { createProject, getAllProjects, getProject, updateProject, deleteProject, shareProject } from './projects.controller';
 import { requireRoles } from '../../common/middleware/auth.middleware';
 
 const router = Router();
 
 router.get("/", getAllProjects);
 router.get("/:id", getProject);
+router.post("/:id/share", shareProject);
 router.post("/", requireRoles('super_admin', 'admin'), createProject);
 router.put("/:id", requireRoles('super_admin', 'admin'), updateProject);
 router.delete("/:id", requireRoles('super_admin'), deleteProject);

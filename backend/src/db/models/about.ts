@@ -13,4 +13,5 @@ export const about = pgTable("about", {
     text_ru: text("text_ru").notNull(),
 
     pp_url: varchar("pp_url", {length: 255}).notNull(),
+    cv_url: varchar("cv_url", {length: 255}),
 });

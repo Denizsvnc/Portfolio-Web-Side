@@ -51,7 +51,9 @@ export const shareBlogSection = async (req: Request, res: Response, next: NextFu
     const ipAddress = req.visitor?.ip;
     const city = req.visitor?.city;
 
-    const result = await shareBlogById(id, visitorId, ipAddress, city);
+    const { platform } = req.body;
+
+    const result = await shareBlogById(id, visitorId, ipAddress, city, platform);
     const blogItem = result[0];
     if (!blogItem) {
       return res.status(404).json({ message: 'Blog yazısı bulunamadı.' });

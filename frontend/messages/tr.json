@@ -1,0 +1,66 @@
+{
+  "Hero": {
+    "software": "YAZILIM GELİŞTİRİCİSİ",
+    "frontend": "FRONTEND GELİŞTİRİCİSİ",
+    "fullstack": "FULL STACK GELİŞTİRİCİSİ"
+  },
+  "Titles": {
+    "about": "Hakkımda",
+    "skills": "Yetenekler",
+    "signatureProject": "İMZA PROJEM",
+    "featuredProjects": "ÖNE ÇIKAN PROJELER",
+    "blogPosts": "SON BLOG YAZILARI",
+    "allBlogs": "TÜM BLOG YAZILARI",
+    "blogSubtitle": "Yazılım, Mimari ve Deneyim Makaleleri",
+    "allProjects": "TÜM PROJELERİM",
+    "projectsSubtitle": "Geliştirdiğim SaaS, Mini ERP ve Açık Kaynaklı Projeler",
+    "innovation": "İnovasyon Odaklı Güvenlik"
+  },
+  "Buttons": {
+    "moreProjects": "Daha Fazla Proje İncele",
+    "moreBlogs": "Daha Fazla Blog Yazısı İncele",
+    "githubRepo": "GitHub Reposunu İncele",
+    "liveDemo": "Canlı Demo",
+    "read": "Oku",
+    "sendMessage": "Mesajı Gönder",
+    "sendNewMessage": "Yeni Mesaj Gönder",
+    "sending": "Gönderiliyor...",
+    "share": "Paylaş",
+    "copyLink": "Bağlantıyı Kopyala",
+    "backToPortfolio": "Portfolio'ya Dön",
+    "viewDetails": "Detayları Gör"
+  },
+  "Status": {
+    "loading": "Yükleniyor...",
+    "noSignatureProject": "İmza proje seçilmemiş.",
+    "noBlogs": "Henüz blog yazısı yayınlanmadı.",
+    "noProjects": "Henüz proje yayınlanmadı."
+  },
+  "Form": {
+    "title": "Benimle İletişime Geçin",
+    "subtitle": "Projeleriniz, iş teklifleri veya sadece merhaba demek için aşağıdaki formu kullanabilirsiniz. Size en kısa sürede e-posta ile dönüş yapacağım.",
+    "name": "Adınız Soyadınız",
+    "namePlaceholder": "Örn: Ahmet Yılmaz",
+    "email": "E-Posta Adresiniz",
+    "emailPlaceholder": "Örn: ahmet@sirket.com",
+    "subject": "Konu",
+    "subjectPlaceholder": "Örn: Proje Teklifi",
+    "message": "Mesajınız",
+    "messagePlaceholder": "Mesajınızı buraya yazın...",
+    "successTitle": "Mesajınız Alındı!",
+    "successSubtitle": "İlginiz için teşekkür ederim. En kısa sürede sizinle e-posta üzerinden iletişime geçeceğim.",
+    "successToast": "Mesajınız başarıyla gönderildi!",
+    "robot": "Lütfen robot olmadığınızı doğrulayın."
+  },
+  "Sidebar": {
+    "home": "Anasayfa",
+    "about": "Hakkımda",
+    "skills": "Yetenekler",
+    "projects": "Projeler",
+    "blog": "Blog",
+    "contact": "İletişim",
+    "language": "Dil",
+    "copyEmail": "E-Posta Kopyala",
+    "copied": "Kopyalandı!"
+  }
+}

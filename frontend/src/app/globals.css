@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-gray-dark: #1a1a1a;
+    --color-gray-medium: #6c757d;
+    --color-gray-light: #adb5bd;
+    --color-gray-lighter: #e9ecef;
+    --color-gray-bg: #f8f9fa;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-gray-dark);
+    font-family: var(--font-open-sans), sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-saira), sans-serif;
+    text-transform: uppercase;
+  }
+}
+
+/* Signature badge animation */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+  50% { box-shadow: 0 0 20px 0 rgba(251, 191, 36, 0.15); }
+}
+
+.signature-glow {
+  animation: pulseGlow 4s infinite ease-in-out;
+}

@@ -15,6 +15,8 @@ export const createBlog = async (data: createBlogDTO) => {
     description_en: data.description_en,
     description_de: data.description_de,
     description_ru: data.description_ru,
+    attachments: data.attachments || [],
+    links: data.links || [],
     queue: data.queue !== undefined ? Number(data.queue) : 0,
     isActive: data.isActive !== undefined ? data.isActive : true,
   }).returning();
@@ -41,7 +43,7 @@ export const getBlogById = async (id: string, visitorId?: string, ipAddress?: st
   return result;
 };
 
-export const shareBlogById = async (id: string, visitorId?: string, ipAddress?: string, city?: string) => {
+export const shareBlogById = async (id: string, visitorId?: string, ipAddress?: string, city?: string, platform?: string) => {
   const updatedBlog = await db.update(blogs).set({ shares: sql`${blogs.shares} + 1` }).where(eq(blogs.id, id)).returning();
   
   if (updatedBlog.length > 0) {
@@ -49,6 +51,7 @@ export const shareBlogById = async (id: string, visitorId?: string, ipAddress?: 
       blog_id: id,
       visitor_id: visitorId || null,
       event_type: 'share',
+      platform: platform || 'Unknown',
       ip_address: ipAddress || null,
       city: city || 'Unknown',
     });

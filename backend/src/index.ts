@@ -1,4 +1,5 @@
 import Express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { apiReference } from "@scalar/express-api-reference";
@@ -10,11 +11,14 @@ import imagesRoutes from "./modules/images/images.routes";
 import projectsRoutes from "./modules/projects/projects.routes";
 import blogsRoutes from "./modules/blogs/blogs.routes";
 import analyticsRoutes from "./modules/analytics/analytics.routes";
+import documentsRoutes from "./modules/documents/documents.routes";
+import contactRoutes from "./modules/contact/contact.routes";
 import { trackVisitor } from "./common/middleware/visitor.middleware";
 
 dotenv.config();
 const app = Express();
 
+app.use(cors({ origin: true, credentials: true }));
 app.use(Express.json());
 
 // Statik dosya erişimi (uploads klasörü)
@@ -31,6 +35,8 @@ app.use("/api/images", imagesRoutes);
 app.use("/api/projects", projectsRoutes);
 app.use("/api/blogs", blogsRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/documents", documentsRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Scalar API Documentation
 app.get("/docs", apiReference({

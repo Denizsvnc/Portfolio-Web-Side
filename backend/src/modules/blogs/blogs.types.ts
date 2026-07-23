@@ -1,3 +1,8 @@
+export interface BlogResource {
+  title: string;
+  url: string;
+}
+
 export interface createBlogDTO {
   icon?: string;
   img_url: string;
@@ -11,6 +16,9 @@ export interface createBlogDTO {
   description_en: string;
   description_de: string;
   description_ru: string;
+
+  attachments?: BlogResource[];
+  links?: BlogResource[];
 
   queue?: number;
   isActive?: boolean;
@@ -29,6 +37,9 @@ export interface updateBlogDTO {
   description_en?: string;
   description_de?: string;
   description_ru?: string;
+
+  attachments?: BlogResource[];
+  links?: BlogResource[];
 
   queue?: number;
   isActive?: boolean;

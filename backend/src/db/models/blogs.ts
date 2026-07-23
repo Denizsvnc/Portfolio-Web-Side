@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, boolean, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, boolean, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
 
 export const blogs = pgTable("blogs", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -14,6 +14,9 @@ export const blogs = pgTable("blogs", {
   description_en: text("description_en").notNull(),
   description_de: text("description_de").notNull(),
   description_ru: text("description_ru").notNull(),
+
+  attachments: jsonb("attachments").default([]).notNull(),
+  links: jsonb("links").default([]).notNull(),
 
   queue: integer("queue").notNull().default(0),
   isActive: boolean("isActive").notNull().default(true),
