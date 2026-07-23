@@ -1,4 +1,4 @@
-import {pgTable, varchar, text, uuid, boolean, integer} from "drizzle-orm/pg-core";
+import {pgTable, varchar, text, uuid, boolean} from "drizzle-orm/pg-core";
 
 export const skilss = pgTable("skilss", {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -14,4 +14,6 @@ export const skilss = pgTable("skilss", {
     element_en: text("element_en").notNull(),
     element_de: text("element_de").notNull(),
     element_ru: text("element_ru").notNull(),
+
+    is_active: boolean("is_active").default(true).notNull(),
 });

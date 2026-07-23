@@ -18,4 +18,7 @@ export const projects = pgTable("projects", {
     button_url: varchar("button_url", {length: 255}).notNull(),
     queue: integer("queue").notNull().default(0),
     isActive: boolean("isActive").notNull().default(true),
+
+    views: integer("views").notNull().default(0),
+
 });

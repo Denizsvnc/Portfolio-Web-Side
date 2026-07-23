@@ -20,6 +20,7 @@ export interface updateAboutSection {
   text_de?: string;
   text_ru?: string;
   pp_url?: string;
+  is_active?: boolean;
 }
 
 export interface getAboutSection {

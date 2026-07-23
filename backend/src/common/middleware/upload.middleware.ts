@@ -17,11 +17,11 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilt
 
 export const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB sınır
+  limits: { fileSize: 7 * 1024 * 1024 }, // 7 MB limit
   fileFilter: fileFilter
 });
 
-// 2. WEBP DÖNÜŞTÜRÜCÜ MIDDLEWARE
+// 2. WEBP DÖNÜŞTÜRÜCÜ MIDDLEWARE   
 export const convertToWebp = async (req: Request, res: Response, next: NextFunction) => {
   // Eğer dosya yüklenmemişse sonrakine geç (Belki güncelleme işleminde dosya gönderilmemiştir)
   if (!req.file) return next();

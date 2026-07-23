@@ -20,10 +20,12 @@
   "dependencies": {
     "@scalar/express-api-reference": "^0.10.11",
     "@types/bcryptjs": "^2.4.6",
+    "@types/geoip-lite": "^1.4.4",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "geoip-lite": "^2.0.3",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "node": "^26.5.0",

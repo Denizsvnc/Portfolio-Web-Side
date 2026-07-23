@@ -29,6 +29,13 @@
       "when": 1784727835438,
       "tag": "0003_misty_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784786465762,
+      "tag": "0004_huge_thunderbird",
+      "breakpoints": true
     }
   ]
 }
