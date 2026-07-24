@@ -10,8 +10,9 @@ export const sendMessage = async (req: Request, res: Response) => {
         }
 
         const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-        const isProd = process.env.NODE_ENV === 'production';
-        if (isProd && secretKey) {
+        const isRecaptchaEnabled = Boolean(secretKey);
+        
+        if (isRecaptchaEnabled) {
             if (!recaptchaToken) {
                 res.status(400).json({ success: false, message: "Lütfen robot olmadığınızı doğrulayın" });
                 return;

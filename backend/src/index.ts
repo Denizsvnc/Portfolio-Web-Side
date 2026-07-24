@@ -1,4 +1,5 @@
 import Express from "express";
+import { rateLimit } from "express-rate-limit";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
@@ -13,6 +14,8 @@ import blogsRoutes from "./modules/blogs/blogs.routes";
 import analyticsRoutes from "./modules/analytics/analytics.routes";
 import documentsRoutes from "./modules/documents/documents.routes";
 import contactRoutes from "./modules/contact/contact.routes";
+import aiRoutes from "./modules/ai/ai.route";
+import { initAiCronJob } from "./modules/ai/ai.cron";
 import { trackVisitor } from "./common/middleware/visitor.middleware";
 
 dotenv.config();
@@ -27,6 +30,20 @@ app.use("/uploads", Express.static(path.join(process.cwd(), "uploads")));
 // Ziyaretçi ve İstatistik Takip Middleware
 app.use(trackVisitor);
 
+// Genel API Güvenliği (Rate Limit) - 15 dakikada maksimum 150 istek
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 150,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Çok fazla istek gönderdiniz. Lütfen bir süre bekleyip tekrar deneyin.",
+  },
+});
+
+app.use("/api", globalLimiter);
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/about", aboutRoutes);
@@ -37,6 +54,7 @@ app.use("/api/blogs", blogsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/documents", documentsRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Scalar API Documentation
 app.get("/docs", apiReference({
@@ -57,4 +75,7 @@ app.listen(BACKEND_PORT, () => {
   console.log(`Server is running on port ${BACKEND_PORT}`);
   console.log(`Server is running on url http://${BACKEND_HOST}:${BACKEND_PORT}`);
   console.log(`API Documentation is available at http://${BACKEND_HOST}:${BACKEND_PORT}/docs`);
+  
+  // Initialize Background Tasks
+  initAiCronJob();
 });

@@ -21,12 +21,12 @@ export const ContactForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-  const isProd = process.env.NODE_ENV === 'production';
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
+  const isRecaptchaEnabled = Boolean(siteKey);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isProd && siteKey && !recaptchaToken) {
+    if (isRecaptchaEnabled && !recaptchaToken) {
       toast.error(t('robot'));
       return;
     }
@@ -125,7 +125,7 @@ export const ContactForm = () => {
             </div>
           )}
 
-          {isProd && siteKey && (
+          {isRecaptchaEnabled && (
             <div className="pt-2">
               <ReCAPTCHA
                 sitekey={siteKey}

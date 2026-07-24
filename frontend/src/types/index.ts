@@ -28,6 +28,7 @@ export interface SkillItem {
 
 export interface ProjectItem {
   id: string;
+  slug?: string;
   icon: string;
   title_tr: string;
   title_en: string;
@@ -55,7 +56,8 @@ export interface ProjectItem {
 
 export interface BlogItem {
   id: string;
-  icon?: string;
+  slug?: string;
+  icon: string | null;
   img_url: string;
   title_tr: string;
   title_en: string;

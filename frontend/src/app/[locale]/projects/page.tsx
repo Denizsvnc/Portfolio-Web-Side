@@ -1,44 +1,36 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { fetchFromServer } from '@/lib/server-fetcher';
 import type { ProjectItem, AboutItem } from '@/types';
 import { Sidebar } from '@/components/public/Sidebar';
+import { ShareMenu } from '@/components/common/ShareMenu';
 import { ArrowLeft, ExternalLink, Star, Lightbulb } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
-import { useTranslations, useLocale } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-export default function AllProjectsPage() {
-  const lang = useLocale();
-  const tTitles = useTranslations('Titles');
-  const tButtons = useTranslations('Buttons');
-  const tStatus = useTranslations('Status');
-  const [projectsList, setProjectsList] = useState<ProjectItem[]>([]);
-  const [aboutList, setAboutList] = useState<AboutItem[]>([]);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  params: Promise<{ locale: string }>;
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [projectsRes, aboutRes] = await Promise.all([
-          api.get('/projects').catch(() => ({ data: { data: [] } })),
-          api.get('/about').catch(() => ({ data: { data: [] } })),
-        ]);
+export default async function AllProjectsPage({ params }: Props) {
+  const { locale } = await params;
+  
+  setRequestLocale(locale);
 
-        setProjectsList(projectsRes.data.data || []);
-        setAboutList(aboutRes.data.data || []);
-      } catch (err) {
-        console.error('Error fetching projects data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const tTitles = await getTranslations({ locale, namespace: 'Titles' });
+  const tButtons = await getTranslations({ locale, namespace: 'Buttons' });
+  const tStatus = await getTranslations({ locale, namespace: 'Status' });
 
-    fetchData();
-  }, []);
+  // Fetch data concurrently on the server
+  const [projectsRes, aboutRes] = await Promise.all([
+    fetchFromServer('/projects'),
+    fetchFromServer('/about'),
+  ]);
 
+  const projectsList: ProjectItem[] = projectsRes.data || [];
+  const aboutList: AboutItem[] = aboutRes.data || [];
   const currentAbout = aboutList[0];
+
   const sortedProjects = [...projectsList].sort((a, b) => b.queue - a.queue);
   const signatureProjects = sortedProjects.filter((p) => p.isSignature);
   const otherProjects = sortedProjects.filter((p) => !p.isSignature);
@@ -46,12 +38,12 @@ export default function AllProjectsPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 flex">
       {/* Sidebar */}
-      <Sidebar currentLang={lang} profileImg={currentAbout?.pp_url} />
+      <Sidebar currentLang={locale} profileImg={currentAbout?.pp_url} />
 
       {/* Main Content Area */}
       <main className="flex-1 md:ml-[280px] px-6 sm:px-12 py-12 max-w-5xl mx-auto space-y-10">
         <Link
-          href={`/${lang}`}
+          href={`/${locale}`}
           className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-black transition uppercase tracking-wider"
         >
           <ArrowLeft size={16} /> {tButtons('backToPortfolio') || "Portfolio'ya Dön"}
@@ -62,8 +54,8 @@ export default function AllProjectsPage() {
           <p className="text-sm text-gray-500 font-sans">{tTitles('projectsSubtitle') || "Geliştirdiğim SaaS, Mini ERP ve Açık Kaynaklı Projeler"}</p>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12 text-gray-400 font-mono text-sm">{tStatus('loading')}</div>
+        {projectsList.length === 0 ? (
+          <div className="text-center py-12 text-gray-500 font-sans">{tStatus('noProjects')}</div>
         ) : (
           <div className="space-y-12">
             {/* Signature Banners */}
@@ -73,8 +65,15 @@ export default function AllProjectsPage() {
                   <div className="flex items-center gap-3">
                     <Star className="text-amber-400 fill-amber-400" size={24} />
                     <h2 className="text-3xl font-bold font-heading">
-                      {sigProj[`title_${lang}` as keyof ProjectItem] as string || sigProj.title_tr}
+                      {sigProj[`title_${locale}` as keyof ProjectItem] as string || sigProj.title_tr}
                     </h2>
+                    <ShareMenu
+                      id={sigProj.id}
+                      type="project"
+                      title={sigProj[`title_${locale}` as keyof ProjectItem] as string || sigProj.title_tr}
+                      url={`/${locale}/project/${sigProj.slug || sigProj.id}`}
+                      variant="icon"
+                    />
                   </div>
                   {sigProj.tech_stack && (
                     <div className="flex flex-wrap gap-2">
@@ -88,23 +87,23 @@ export default function AllProjectsPage() {
                 </div>
 
                 <p className="text-gray-300 text-base leading-relaxed">
-                  {sigProj[`element_${lang}` as keyof ProjectItem] as string || sigProj.element_tr}
+                  {sigProj[`element_${locale}` as keyof ProjectItem] as string || sigProj.element_tr}
                 </p>
 
-                {(sigProj[`innovation_${lang}` as keyof ProjectItem] as string || sigProj.innovation_tr) && (
+                {(sigProj[`innovation_${locale as 'tr'|'en'|'de'|'ru'}`] || sigProj.innovation_tr) && (
                   <div className="bg-amber-500/10 border-l-4 border-amber-400 p-4 rounded-r-xl space-y-1">
                     <h4 className="text-amber-400 font-bold text-sm flex items-center gap-2">
                       <Lightbulb size={16} /> {tTitles('innovation') || "İnovasyon Odaklı Güvenlik"}
                     </h4>
                     <p className="text-xs text-gray-300">
-                      {sigProj[`innovation_${lang}` as keyof ProjectItem] as string || sigProj.innovation_tr}
+                      {sigProj[`innovation_${locale as 'tr'|'en'|'de'|'ru'}`] || sigProj.innovation_tr}
                     </p>
                   </div>
                 )}
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <Link
-                    href={`/${lang}/project/${sigProj.id}`}
+                    href={`/${locale}/project/${sigProj.slug || sigProj.id}`}
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black rounded-lg font-bold text-xs transition shadow-lg"
                   >
                     {tButtons('viewDetails') || "Detayları Gör"} →
@@ -138,14 +137,14 @@ export default function AllProjectsPage() {
               {otherProjects.map((project) => (
                 <div key={project.id} className="bg-gray-50 border border-gray-200 rounded-2xl p-6 flex flex-col justify-between hover:shadow-lg transition">
                   <div className="space-y-3">
-                    <Link href={`/${lang}/project/${project.id}`} className="hover:text-emerald-600 transition">
-                      <h3 className="font-heading font-bold text-xl">{project[`title_${lang}` as keyof ProjectItem] as string || project.title_tr}</h3>
+                    <Link href={`/${locale}/project/${project.slug || project.id}`} className="hover:text-emerald-600 transition">
+                      <h3 className="font-heading font-bold text-xl">{project[`title_${locale}` as keyof ProjectItem] as string || project.title_tr}</h3>
                     </Link>
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{project[`element_${lang}` as keyof ProjectItem] as string || project.element_tr}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{project[`element_${locale}` as keyof ProjectItem] as string || project.element_tr}</p>
                   </div>
                   <div className="pt-4 mt-4 border-t border-gray-200 flex items-center justify-between">
                     <Link
-                      href={`/${lang}/project/${project.id}`}
+                      href={`/${locale}/project/${project.slug || project.id}`}
                       className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition flex items-center gap-1"
                     >
                       {tButtons('viewDetails') || "Detayları Gör"} →

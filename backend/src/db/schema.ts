@@ -13,3 +13,5 @@ export * from "./models/relations";
 export * from "./models/visitors";
 export * from "./models/analytics";
 export * from "./models/contactReplies";
+export * from "./models/aiSettings";
+export * from "./models/aiBlogPlans";

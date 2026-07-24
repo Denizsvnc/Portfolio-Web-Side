@@ -2,7 +2,7 @@ import { pgTable, varchar, text, uuid, boolean, integer, jsonb } from "drizzle-o
 
 export const projects = pgTable("projects", {
     id: uuid("id").defaultRandom().primaryKey(),
-    
+    slug: varchar("slug", {length: 255}).unique(),
     icon: varchar("icon", {length: 255}).notNull().default("folder"),
 
     title_tr: varchar("title_tr", {length: 255}).notNull(),

@@ -1,28 +1,35 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { clearTokens } from '@/lib/api';
-import { LayoutDashboard, UserCheck, Code2, FolderKanban, BookOpen, Image as ImageIcon, LogOut, Globe, Mail } from 'lucide-react';
+import { LayoutDashboard, UserCheck, Code2, FolderKanban, BookOpen, Image as ImageIcon, LogOut, Globe, Mail, Bot } from 'lucide-react';
 
 export const AdminSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('Admin.sidebar');
 
   const handleLogout = () => {
     clearTokens();
     router.push('/admin/login');
   };
 
+  const switchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    router.replace(pathname, { locale: e.target.value });
+  };
+
   const navItems = [
-    { label: 'İstatistik Özeti', href: '/admin', icon: LayoutDashboard },
-    { label: 'Hakkımda', href: '/admin/about', icon: UserCheck },
-    { label: 'Yetenekler', href: '/admin/skills', icon: Code2 },
-    { label: 'Projeler', href: '/admin/projects', icon: FolderKanban },
-    { label: 'Blog Yazıları', href: '/admin/blogs', icon: BookOpen },
-    { label: 'Medya / Görseller', href: '/admin/images', icon: ImageIcon },
-    { label: 'İletişim Mesajları', href: '/admin/contact', icon: Mail },
+    { label: t('dashboard'), href: '/admin', icon: LayoutDashboard },
+    { label: t('about'), href: '/admin/about', icon: UserCheck },
+    { label: t('skills'), href: '/admin/skills', icon: Code2 },
+    { label: t('projects'), href: '/admin/projects', icon: FolderKanban },
+    { label: t('blogs'), href: '/admin/blogs', icon: BookOpen },
+    { label: t('images'), href: '/admin/images', icon: ImageIcon },
+    { label: t('contact'), href: '/admin/contact', icon: Mail },
+    { label: t('ai'), href: '/admin/ai-settings', icon: Bot },
   ];
 
   return (
@@ -41,11 +48,12 @@ export const AdminSidebar = () => {
         <nav className="flex flex-col gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
+            // usePathname from next-intl already strips the locale prefix
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href as any}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${
                   isActive
                     ? 'bg-white text-black font-bold shadow-sm'
@@ -61,6 +69,17 @@ export const AdminSidebar = () => {
       </div>
 
       <div className="pt-6 border-t border-gray-800 flex flex-col gap-3">
+        <select
+          value={locale}
+          onChange={switchLanguage}
+          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 mb-2"
+        >
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="ru">🇷🇺 Русский</option>
+        </select>
+        
         <Link
           href="/"
           target="_blank"
@@ -72,7 +91,7 @@ export const AdminSidebar = () => {
           onClick={handleLogout}
           className="flex items-center gap-2 px-4 py-2.5 text-xs text-red-400 hover:text-white hover:bg-red-950/40 rounded-lg transition font-medium text-left"
         >
-          <LogOut size={14} /> Oturumu Kapat
+          <LogOut size={14} /> {t('logout')}
         </button>
       </div>
     </aside>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Share2, Briefcase, Video, Camera, MessageCircle, Mail, Link as LinkIcon, Check } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useTranslations } from 'next-intl';
@@ -12,14 +13,14 @@ interface ShareMenuProps {
   type: 'blog' | 'project';
   title: string;
   url: string;
-  onShareComplete?: () => void;
   variant?: 'button' | 'icon';
 }
 
-export const ShareMenu: React.FC<ShareMenuProps> = ({ id, type, title, url, onShareComplete, variant = 'button' }) => {
+export const ShareMenu: React.FC<ShareMenuProps> = ({ id, type, title, url, variant = 'button' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const tButtons = useTranslations('Buttons');
   const tSidebar = useTranslations('Sidebar');
 
@@ -36,9 +37,10 @@ export const ShareMenu: React.FC<ShareMenuProps> = ({ id, type, title, url, onSh
   }, [isOpen]);
 
   const handleShare = async (platform: SharePlatform) => {
-    // Determine share URL
+    // Determine absolute share URL
+    const fullUrl = url.startsWith('http') ? url : (typeof window !== 'undefined' ? `${window.location.origin}${url}` : url);
     let shareUrl = '';
-    const encodedUrl = encodeURIComponent(url);
+    const encodedUrl = encodeURIComponent(fullUrl);
     const encodedTitle = encodeURIComponent(title);
 
     switch (platform) {
@@ -58,7 +60,7 @@ export const ShareMenu: React.FC<ShareMenuProps> = ({ id, type, title, url, onSh
         shareUrl = 'https://instagram.com'; // Fallback
         break;
       case 'copy_link':
-        navigator.clipboard.writeText(url);
+        navigator.clipboard.writeText(fullUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         break;
@@ -67,7 +69,7 @@ export const ShareMenu: React.FC<ShareMenuProps> = ({ id, type, title, url, onSh
     // Call API to log share
     try {
       await api.post(`/${type}s/${id}/share`, { platform });
-      if (onShareComplete) onShareComplete();
+      router.refresh(); // Refresh Server Components data
     } catch (error) {
       console.error(`Error logging ${type} share:`, error);
     }

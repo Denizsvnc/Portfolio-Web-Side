@@ -49,8 +49,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg }) => 
       >
         <div className="flex flex-col items-center text-center mt-6">
           {/* Profile Picture */}
-          {profileImg && (
-            <div className="relative group mb-6">
+          <div className="relative group mb-6 w-40 h-40 flex items-center justify-center">
+            {profileImg ? (
               <Link href="/">
                 <img
                   src={profileImg}
@@ -58,8 +58,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg }) => 
                   className="w-40 h-40 rounded-full object-cover border-4 border-white shadow-xl group-hover:scale-105 transition duration-300 cursor-pointer"
                 />
               </Link>
-            </div>
-          )}
+            ) : (
+              <div className="w-40 h-40 rounded-full border-4 border-white/10 bg-white/5 animate-pulse shadow-xl" />
+            )}
+          </div>
 
           {/* Social Icons */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">

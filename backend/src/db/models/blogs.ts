@@ -2,6 +2,7 @@ import { pgTable, uuid, varchar, text, boolean, integer, timestamp, jsonb } from
 
 export const blogs = pgTable("blogs", {
   id: uuid("id").defaultRandom().primaryKey(),
+  slug: varchar("slug", { length: 255 }).unique(),
   icon: varchar("icon", { length: 255 }),
   img_url: varchar("img_url", { length: 255 }).notNull(),
 
@@ -17,6 +18,9 @@ export const blogs = pgTable("blogs", {
 
   attachments: jsonb("attachments").default([]).notNull(),
   links: jsonb("links").default([]).notNull(),
+
+  seo_keywords: text("seo_keywords"),
+  meta_description: text("meta_description"),
 
   queue: integer("queue").notNull().default(0),
   isActive: boolean("isActive").notNull().default(true),
