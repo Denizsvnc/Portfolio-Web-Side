@@ -9,9 +9,10 @@ import { useTranslations } from 'next-intl';
 interface SidebarProps {
   currentLang: string;
   profileImg?: string;
+  siteSettings?: Record<string, string>;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg, siteSettings }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -65,47 +66,57 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg }) => 
 
           {/* Social Icons */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <a
-              href="https://github.com/Denizsvnc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
-              title="GitHub"
-            >
-              <GithubIcon size={18} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/deniz-sevinç-819529261"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
-              title="LinkedIn"
-            >
-              <LinkedinIcon size={18} />
-            </a>
-            <a
-              href="tel:+905478985659"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
-              title="Telefon"
-            >
-              <Phone size={18} />
-            </a>
-            <a
-              href="mailto:info@denizsevinc.com.tr"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
-              title="E-posta"
-            >
-              <Mail size={18} />
-            </a>
-            <a
-              href="https://www.instagram.com/denizsevinc0_/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
-              title="Instagram"
-            >
-              <InstagramIcon size={18} />
-            </a>
+            {siteSettings?.github_url && (
+              <a
+                href={siteSettings.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                title="GitHub"
+              >
+                <GithubIcon size={18} />
+              </a>
+            )}
+            {siteSettings?.linkedin_url && (
+              <a
+                href={siteSettings.linkedin_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                title="LinkedIn"
+              >
+                <LinkedinIcon size={18} />
+              </a>
+            )}
+            {siteSettings?.phone_number && (
+              <a
+                href={`tel:${siteSettings.phone_number}`}
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                title="Telefon"
+              >
+                <Phone size={18} />
+              </a>
+            )}
+            {siteSettings?.email_address && (
+              <a
+                href={`mailto:${siteSettings.email_address}`}
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                title="E-posta"
+              >
+                <Mail size={18} />
+              </a>
+            )}
+            {siteSettings?.instagram_url && (
+              <a
+                href={siteSettings.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                title="Instagram"
+              >
+                <InstagramIcon size={18} />
+              </a>
+            )}
           </div>
 
           {/* Navigation Links */}

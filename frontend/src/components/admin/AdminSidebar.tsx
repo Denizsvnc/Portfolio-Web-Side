@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { clearTokens } from '@/lib/api';
-import { LayoutDashboard, UserCheck, Code2, FolderKanban, BookOpen, Image as ImageIcon, LogOut, Globe, Mail, Bot } from 'lucide-react';
+import { LayoutDashboard, Settings, UserCheck, Code2, FolderKanban, BookOpen, Image as ImageIcon, LogOut, Globe, Mail, Bot } from 'lucide-react';
 
 export const AdminSidebar = () => {
   const pathname = usePathname();
@@ -32,6 +32,7 @@ export const AdminSidebar = () => {
     { label: t('blogs'), href: '/admin/blogs', icon: BookOpen },
     { label: t('images'), href: '/admin/images', icon: ImageIcon },
     { label: t('contact'), href: '/admin/contact', icon: Mail },
+    { label: 'Site Ayarları', href: '/admin/settings', icon: Settings },
     { label: t('ai'), href: '/admin/ai-settings', icon: Bot },
   ];
 

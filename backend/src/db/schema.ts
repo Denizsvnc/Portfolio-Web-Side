@@ -15,3 +15,4 @@ export * from "./models/analytics";
 export * from "./models/contactReplies";
 export * from "./models/aiSettings";
 export * from "./models/aiBlogPlans";
+export * from "./models/siteSettings";

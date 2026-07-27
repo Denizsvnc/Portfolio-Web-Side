@@ -25,11 +25,12 @@ export default async function PublicHomePage({ params }: Props) {
   const tButtons = await getTranslations({ locale, namespace: 'Buttons' });
 
   // Fetch data concurrently on the server
-  const [aboutRes, skillsRes, projectsRes, blogsRes] = await Promise.all([
+  const [aboutRes, skillsRes, projectsRes, blogsRes, settingsRes] = await Promise.all([
     fetchFromServer('/about'),
     fetchFromServer('/skills'),
     fetchFromServer('/projects'),
     fetchFromServer('/blogs'),
+    fetchFromServer('/settings'),
   ]);
 
   const aboutList: AboutItem[] = aboutRes.data || [];
@@ -49,10 +50,12 @@ export default async function PublicHomePage({ params }: Props) {
   const visibleBlogs = blogsList.slice(0, 3);
   const hasMoreBlogs = blogsList.length > 3;
 
+  const siteSettings = settingsRes?.data || {};
+
   return (
     <div className="min-h-screen bg-white text-gray-900 flex">
       {/* Sidebar */}
-      <Sidebar currentLang={locale} profileImg={currentAbout?.pp_url} />
+      <Sidebar currentLang={locale} profileImg={currentAbout?.pp_url} siteSettings={siteSettings} />
 
       {/* Main Content Area */}
       <main className="flex-1 md:ml-[280px] px-6 sm:px-12 py-12 max-w-4xl mx-auto">
