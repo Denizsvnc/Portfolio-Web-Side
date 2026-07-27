@@ -13,12 +13,12 @@ module.exports = {
     {
       name: 'denizsevinc-frontend',
       script: 'node',
-      args: 'server.js', // Standalone build olduğu için server.js çalıştırılacak
-      cwd: './frontend/dist/standalone', // next.config.ts'te distDir: 'dist' ayarlandığı için dist/standalone klasörü kullanılır
+      args: 'server.js',
+      cwd: './frontend/dist/standalone',
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        HOSTNAME: '127.0.0.1' // Sadece localhost'tan erişilsin (Nginx dışarı açacak)
+        HOSTNAME: '127.0.0.1'
       }
     }
   ]
