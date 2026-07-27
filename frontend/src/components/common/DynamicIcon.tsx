@@ -4,8 +4,7 @@ import React from 'react';
 import { LucideProps } from 'lucide-react';
 import {
   Link, Phone, Mail, MapPin, Globe, Search, MessageCircle, Send,
-  Youtube, Twitter, Facebook, Instagram, Github, Linkedin, Video,
-  FileText, User, Users, Home, Settings, Info, HelpCircle,
+  Video, FileText, User, Users, Home, Settings, Info, HelpCircle,
   MessageSquare, Camera, Calendar, Briefcase, Bell, Bookmark,
   Cloud, Code, ExternalLink, Heart, Navigation, Share2, Star,
   ThumbsUp, Zap, ArrowRight, ArrowLeft, ArrowUp, ArrowDown,
@@ -19,8 +18,7 @@ interface DynamicIconProps extends LucideProps {
 
 const iconMap: Record<string, any> = {
   Link, Phone, Mail, MapPin, Globe, Search, MessageCircle, Send,
-  Youtube, Twitter, Facebook, Instagram, Github, Linkedin, Video,
-  FileText, User, Users, Home, Settings, Info, HelpCircle,
+  Video, FileText, User, Users, Home, Settings, Info, HelpCircle,
   MessageSquare, Camera, Calendar, Briefcase, Bell, Bookmark,
   Cloud, Code, ExternalLink, Heart, Navigation, Share2, Star,
   ThumbsUp, Zap, ArrowRight, ArrowLeft, ArrowUp, ArrowDown,
