@@ -1,11 +1,32 @@
 'use client';
 
 import React from 'react';
-import { icons, LucideProps, Link } from 'lucide-react';
+import { LucideProps } from 'lucide-react';
+import {
+  Link, Phone, Mail, MapPin, Globe, Search, MessageCircle, Send,
+  Youtube, Twitter, Facebook, Instagram, Github, Linkedin, Video,
+  FileText, User, Users, Home, Settings, Info, HelpCircle,
+  MessageSquare, Camera, Calendar, Briefcase, Bell, Bookmark,
+  Cloud, Code, ExternalLink, Heart, Navigation, Share2, Star,
+  ThumbsUp, Zap, ArrowRight, ArrowLeft, ArrowUp, ArrowDown,
+  Check, X, Plus, Minus, Edit2, Trash2, Download, Upload,
+  Map, Monitor, Smartphone, Tablet, Watch
+} from 'lucide-react';
 
 interface DynamicIconProps extends LucideProps {
   name: string;
 }
+
+const iconMap: Record<string, any> = {
+  Link, Phone, Mail, MapPin, Globe, Search, MessageCircle, Send,
+  Youtube, Twitter, Facebook, Instagram, Github, Linkedin, Video,
+  FileText, User, Users, Home, Settings, Info, HelpCircle,
+  MessageSquare, Camera, Calendar, Briefcase, Bell, Bookmark,
+  Cloud, Code, ExternalLink, Heart, Navigation, Share2, Star,
+  ThumbsUp, Zap, ArrowRight, ArrowLeft, ArrowUp, ArrowDown,
+  Check, X, Plus, Minus, Edit2, Trash2, Download, Upload,
+  Map, Monitor, Smartphone, Tablet, Watch
+};
 
 const toPascalCase = (str: string) => {
   return str
@@ -16,19 +37,16 @@ const toPascalCase = (str: string) => {
 };
 
 export const DynamicIcon = ({ name, ...props }: DynamicIconProps) => {
-  // Try to normalize the name
   let formattedName = name;
   if (name.includes('-')) {
     formattedName = toPascalCase(name);
   } else {
-    // If it's all lowercase, try to capitalize the first letter as a best effort
     if (name === name.toLowerCase()) {
       formattedName = name.charAt(0).toUpperCase() + name.slice(1);
     }
   }
 
-  // Find the icon in the exported icons object
-  const IconComponent = (icons as any)[formattedName] || (icons as any)[name] || Link;
+  const IconComponent = iconMap[formattedName] || iconMap[name] || Link;
 
   return <IconComponent {...props} />;
 };
