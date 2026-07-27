@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({
           href={cvUrl}
           target="_blank"
           rel="noopener noreferrer"
-          download
+          download="DENIZ_SEVINC_CV.pdf"
           className="inline-flex items-center gap-2 px-6 py-3.5 bg-white text-black border-2 border-gray-300 font-heading font-semibold tracking-wider text-sm rounded hover:bg-black hover:text-white hover:border-black transition duration-200 shadow-sm hover:-translate-y-0.5"
         >
           <Download size={18} />
