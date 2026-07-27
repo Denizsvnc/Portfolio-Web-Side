@@ -11,7 +11,7 @@ const slugify = (text: string) => {
     
     // Convert Turkish characters
     for (let key in trMap) {
-        str = str.replace(new RegExp(key, 'g'), trMap[key]);
+        str = str.replace(new RegExp(key, 'g'), trMap[key] as string);
     }
     
     // Remove non-alphanumeric characters, replace spaces with hyphens

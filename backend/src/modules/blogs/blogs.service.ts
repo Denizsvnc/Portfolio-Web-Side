@@ -10,7 +10,7 @@ const slugify = (text: string) => {
     };
     let str = text.trim().toLowerCase();
     for (let key in trMap) {
-        str = str.replace(new RegExp(key, 'g'), trMap[key]);
+        str = str.replace(new RegExp(key, 'g'), trMap[key] as string);
     }
     return str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 };
@@ -71,7 +71,7 @@ export const getBlogById = async (identifier: string, visitorId?: string, ipAddr
   if (!isUuid) {
     const found = await db.select({ id: blogs.id }).from(blogs).where(eq(blogs.slug, identifier));
     if (!found || found.length === 0) return [];
-    blogId = found[0].id;
+    blogId = found[0]!.id;
   }
 
   await db.update(blogs).set({ views: sql`${blogs.views} + 1` }).where(eq(blogs.id, blogId));
@@ -106,7 +106,7 @@ export const shareBlogById = async (id: string, visitorId?: string, ipAddress?: 
 };
 
 export const updateBlog = async (id: string, data: updateBlogDTO) => {
-  let slug = data.slug as string | undefined;
+  let slug = (data as any).slug as string | undefined;
   if (data.title_tr) {
     const baseSlug = slugify(data.title_tr);
     slug = await generateUniqueSlug(baseSlug, id);

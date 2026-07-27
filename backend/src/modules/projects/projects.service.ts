@@ -10,7 +10,7 @@ const slugify = (text: string) => {
     };
     let str = text.trim().toLowerCase();
     for (let key in trMap) {
-        str = str.replace(new RegExp(key, 'g'), trMap[key]);
+        str = str.replace(new RegExp(key, 'g'), trMap[key] as string);
     }
     return str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 };
@@ -43,7 +43,7 @@ export const createProject = async (data: createProjects) => {
 }
 
 export const updateProject = async (data: updateProjects) => {
-    let slug = data.slug as string | undefined;
+    let slug = (data as any).slug as string | undefined;
     if (data.title_tr) {
         const baseSlug = slugify(data.title_tr);
         slug = await generateUniqueSlug(baseSlug, data.id);
