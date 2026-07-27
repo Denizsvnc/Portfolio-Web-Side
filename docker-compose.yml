@@ -16,7 +16,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+      - "${FRONTEND_PORT:-3015}:3000"
     env_file:
       - ./frontend/.env
     restart: unless-stopped

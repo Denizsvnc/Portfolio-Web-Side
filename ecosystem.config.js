@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'denizsevinc-backend',
-      script: 'npm',
-      args: 'start',
+      script: 'npx',
+      args: 'tsx src/index.ts',
       cwd: './backend',
       env: {
         NODE_ENV: 'production',
@@ -17,7 +17,7 @@ module.exports = {
       cwd: './frontend/dist/standalone',
       env: {
         NODE_ENV: 'production',
-        PORT: 3000,
+        PORT: 3015,
         HOSTNAME: '127.0.0.1'
       }
     }
