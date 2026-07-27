@@ -2,7 +2,7 @@
 import { useTranslations } from 'next-intl';
 
 import React, { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, getImageUrl } from '@/lib/api';
 import type { AboutItem } from '@/types';
 import { Plus, Edit2, Trash2, Save, X, RefreshCw, Upload, ImageIcon } from 'lucide-react';
 
@@ -97,7 +97,7 @@ export default function AdminAboutPage() {
       const res = await api.post('/images', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setFormData({ ...formData, pp_url: res.data.data.url });
+      setFormData({ ...formData, pp_url: getImageUrl(res.data.data.image_url) });
     } catch (err) {
       alert(t('uploadError'));
     } finally {
