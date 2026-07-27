@@ -73,7 +73,6 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${saira.variable} ${openSans.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased bg-white text-gray-900 selection:bg-black selection:text-white">
-        <LanguageSync currentLocale={locale} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -91,6 +90,7 @@ export default async function LocaleLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
+          <LanguageSync currentLocale={locale} />
           {children}
           <Toaster position="bottom-right" />
         </NextIntlClientProvider>
