@@ -20,6 +20,7 @@ import { trackVisitor } from "./common/middleware/visitor.middleware";
 
 dotenv.config();
 const app = Express();
+app.set('trust proxy', 1); // Nginx'in gönderdiği IP'ye güvenmek için (Rate limit hatasını çözer)
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(Express.json());
