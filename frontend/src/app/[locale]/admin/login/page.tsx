@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -6,6 +7,7 @@ import { api, setTokens } from '@/lib/api';
 import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function AdminLoginPage() {
+  const t = useTranslations('Admin.login');
   const router = useRouter();
   const [email, setEmail] = useState('admin@mail.com');
   const [password, setPassword] = useState('123');
@@ -29,9 +31,9 @@ export default function AdminLoginPage() {
     } catch (err: unknown) {
       if (typeof err === 'object' && err !== null && 'response' in err) {
         const responseError = err as { response?: { data?: { message?: string } } };
-        setError(responseError.response?.data?.message || 'Giriş yapılamadı. Şifreyi veya e-postayı kontrol edin.');
+        setError(responseError.response?.data?.message || t('errorInvalid'));
       } else {
-        setError('Giriş yapılırken bir hata oluştu.');
+        setError(t('errorGeneral'));
       }
     } finally {
       setLoading(false);
@@ -45,8 +47,8 @@ export default function AdminLoginPage() {
           <div className="w-14 h-14 rounded-2xl bg-white text-black flex items-center justify-center font-bold text-2xl mb-4 shadow-lg">
             <ShieldCheck size={32} />
           </div>
-          <h1 className="text-2xl font-bold font-heading tracking-wider">YÖNETİCİ GİRİŞİ</h1>
-          <p className="text-xs text-gray-400 mt-1">Deniz Sevinç Portfolio Admin Paneli</p>
+          <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
+          <p className="text-xs text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
 
         {error && (
@@ -58,7 +60,7 @@ export default function AdminLoginPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-              E-Posta Adresi
+              {t('emailLabel')}
             </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -75,7 +77,7 @@ export default function AdminLoginPage() {
 
           <div>
             <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-              Şifre
+              {t('passwordLabel')}
             </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -95,14 +97,14 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full py-3.5 bg-white text-black font-semibold text-sm rounded-xl hover:bg-gray-200 transition duration-200 flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 mt-4"
           >
-            {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
+            {loading ? t('loginBtnLoading') : t('loginBtn')}
             {!loading && <ArrowRight size={16} />}
           </button>
         </form>
 
         <div className="mt-8 text-center border-t border-gray-800/80 pt-6">
           <p className="text-xs text-gray-500">
-            Varsayılan Giriş: <code className="text-gray-300">admin@mail.com</code> / <code className="text-gray-300">123</code>
+            {t('defaultLoginInfo')} <code className="text-gray-300">admin@mail.com</code> / <code className="text-gray-300">123</code>
           </p>
         </div>
       </div>

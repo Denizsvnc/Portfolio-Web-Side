@@ -345,10 +345,10 @@ export default function AdminDashboardPage() {
           <table className="w-full text-left text-xs text-gray-300">
             <thead className="text-gray-500 uppercase bg-gray-950/50">
               <tr>
-                <th className="py-3 px-4 rounded-l-lg">İçerik Başlığı</th>
-                <th className="py-3 px-4">İçerik Tipi</th>
+                <th className="py-3 px-4 rounded-l-lg">{t('tableTitle')}</th>
+                <th className="py-3 px-4">{t('tableType')}</th>
                 <th className="py-3 px-4">Platform</th>
-                <th className="py-3 px-4">IP Adresi / Şehir</th>
+                <th className="py-3 px-4">{t('tableIp')}</th>
                 <th className="py-3 px-4 rounded-r-lg text-right">Tarih</th>
               </tr>
             </thead>
@@ -356,7 +356,7 @@ export default function AdminDashboardPage() {
               {paginatedDetailedShares.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="py-6 text-center text-gray-500">
-                    Henüz detaylı paylaşım logu bulunmuyor.
+                    {t('noShareLogs')}
                   </td>
                 </tr>
               ) : (
@@ -382,7 +382,7 @@ export default function AdminDashboardPage() {
         {totalDetailedSharesPages > 1 && (
           <div className="flex items-center justify-between pt-4 border-t border-gray-800 text-xs text-gray-400 mt-4">
             <span>
-              Gösterilen: {(detailedSharesPage - 1) * itemsPerPage + 1} - {Math.min(detailedSharesPage * itemsPerPage, detailedShares.length)} / Toplam {detailedShares.length} Log
+              {t('showing')} {(detailedSharesPage - 1) * itemsPerPage + 1} - {Math.min(detailedSharesPage * itemsPerPage, detailedShares.length)} / {t('totalLog')} {detailedShares.length} Log
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -390,7 +390,7 @@ export default function AdminDashboardPage() {
                 onClick={() => setDetailedSharesPage((p) => Math.max(1, p - 1))}
                 className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 disabled:opacity-40 rounded-lg text-white transition font-medium flex items-center gap-1"
               >
-                <ChevronLeft size={16} /> Önceki Sayfa
+                <ChevronLeft size={16} /> {t('previousPage')}
               </button>
               <span className="font-bold text-white px-2">
                 {detailedSharesPage} / {totalDetailedSharesPages}
@@ -411,9 +411,9 @@ export default function AdminDashboardPage() {
       <div className="bg-gray-900 border border-gray-800/80 rounded-2xl p-6 shadow-lg">
         <div className="flex items-center justify-between mb-6 pb-3 border-b border-gray-800">
           <h3 className="font-heading text-lg font-bold tracking-wider flex items-center gap-2">
-            <Clock size={18} className="text-amber-400" /> Canlı Sayfa Ziyaret ve Log Günlüğü
+            <Clock size={18} className="text-amber-400" /> {t('liveLogsTitle')}
           </h3>
-          <span className="text-xs text-gray-500">Toplam {visitors.length} Log Kaydı</span>
+          <span className="text-xs text-gray-500">{t('totalLogsStr', {count: visitors.length})}</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -422,7 +422,7 @@ export default function AdminDashboardPage() {
               <tr>
                 <th className="py-3 px-4 rounded-l-lg">Ziyaret Edilen Sayfa</th>
                 <th className="py-3 px-4">IP Adresi</th>
-                <th className="py-3 px-4">Şehir / Ülke</th>
+                <th className="py-3 px-4">{t('tableCity')}</th>
                 <th className="py-3 px-4 rounded-r-lg text-right">Ziyaret Tarihi</th>
               </tr>
             </thead>
@@ -430,7 +430,7 @@ export default function AdminDashboardPage() {
               {paginatedLogs.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="py-6 text-center text-gray-500">
-                    Ziyaretçi log kaydı bulunamadı.
+                    {t('noVisitorLogs')}
                   </td>
                 </tr>
               ) : (
@@ -455,7 +455,7 @@ export default function AdminDashboardPage() {
         {totalLogsPages > 1 && (
           <div className="flex items-center justify-between pt-4 border-t border-gray-800 text-xs text-gray-400 mt-4">
             <span>
-              Gösterilen: {(logsPage - 1) * itemsPerPage + 1} - {Math.min(logsPage * itemsPerPage, visitors.length)} / Toplam {visitors.length} Log
+              {t('showing')} {(logsPage - 1) * itemsPerPage + 1} - {Math.min(logsPage * itemsPerPage, visitors.length)} / {t('totalLog')} {visitors.length} Log
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -463,7 +463,7 @@ export default function AdminDashboardPage() {
                 onClick={() => setLogsPage((p) => Math.max(1, p - 1))}
                 className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 disabled:opacity-40 rounded-lg text-white transition font-medium flex items-center gap-1"
               >
-                <ChevronLeft size={16} /> Önceki Sayfa
+                <ChevronLeft size={16} /> {t('previousPage')}
               </button>
               <span className="font-bold text-white px-2">
                 {logsPage} / {totalLogsPages}

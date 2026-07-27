@@ -106,7 +106,7 @@ export default function AdminImagesPage() {
           />
           <input
             type="text"
-            placeholder="Alt metin (Açıklama)"
+            placeholder={t('altPlaceholder')}
             value={altText}
             onChange={(e) => setAltText(e.target.value)}
             className="md:w-64 bg-gray-950 border border-gray-800 rounded-xl p-3 text-white outline-none focus:border-white"
@@ -116,17 +116,17 @@ export default function AdminImagesPage() {
             disabled={uploading}
             className="px-6 py-3 bg-white text-black font-semibold text-xs rounded-xl hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            {uploading ? 'Dönüştürülüyor...' : t('uploadBtn') + ' & WebP Yap'}
+            {uploading ? t('converting') : t('uploadBtn') + ' ' + t('makeWebp')}
           </button>
         </form>
       </div>
 
       {/* Gallery Grid */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500 text-sm">Görseller yükleniyor...</div>
+        <div className="text-center py-12 text-gray-500 text-sm">{t('loadingImages')}</div>
       ) : items.length === 0 ? (
         <div className="text-center py-12 bg-gray-900 border border-gray-800 rounded-2xl text-gray-500 text-sm">
-          Henüz yüklenmiş görsel bulunmuyor.
+          {t('noImages')}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -140,7 +140,7 @@ export default function AdminImagesPage() {
                 <div className="relative h-48 bg-gray-950 flex items-center justify-center">
                   <img
                     src={displayUrl}
-                    alt={item.alt_text || 'Görsel'}
+                    alt={item.alt_text || t('defaultAlt')}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
                   <span className="absolute top-2 right-2 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-emerald-400 font-bold">
@@ -150,7 +150,7 @@ export default function AdminImagesPage() {
 
                 <div className="p-4 space-y-3">
                   <div className="text-xs text-gray-300 font-medium truncate">
-                    {item.alt_text || 'Açıklama yok'}
+                    {item.alt_text || t('noDescription')}
                   </div>
                   <div className="text-[10px] text-gray-500 font-mono truncate">{item.image_url}</div>
 
@@ -161,7 +161,7 @@ export default function AdminImagesPage() {
                     >
                       {copiedId === item.id ? (
                         <>
-                          <Check size={14} className="text-emerald-400" /> Kopyalandı
+                          <Check size={14} className="text-emerald-400" /> {t('copied')}
                         </>
                       ) : (
                         <>
@@ -172,7 +172,7 @@ export default function AdminImagesPage() {
                     <button
                       onClick={() => handleDelete(item.id)}
                       className="p-2 bg-red-950/50 hover:bg-red-900 text-red-400 hover:text-white rounded-lg transition"
-                      title="Sil"
+                      title={t('delete')}
                     >
                       <Trash2 size={16} />
                     </button>

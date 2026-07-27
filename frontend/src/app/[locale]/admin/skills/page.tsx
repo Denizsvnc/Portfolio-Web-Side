@@ -105,8 +105,8 @@ export default function AdminSkillsPage() {
     <div className="space-y-6 max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-gray-800">
         <div>
-          <h1 className="text-2xl font-bold font-heading tracking-wider">YETENEKLER BÖLÜMÜ YÖNETİMİ</h1>
-          <p className="text-xs text-gray-400 mt-1">Teknoloji yeteneklerinin 4 dilde yönetimi</p>
+          <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
+          <p className="text-xs text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -126,10 +126,10 @@ export default function AdminSkillsPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500 text-sm">Yükleniyor...</div>
+        <div className="text-center py-12 text-gray-500 text-sm">{t('loading')}</div>
       ) : items.length === 0 ? (
         <div className="text-center py-12 bg-gray-900 border border-gray-800 rounded-2xl text-gray-500 text-sm">
-          Henüz yetenek kaydı eklenmemiş.
+          {t('noSkills')}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -142,21 +142,21 @@ export default function AdminSkillsPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-base text-white font-heading">{item.title_tr}</h3>
-                    <span className="text-[10px] text-gray-500 uppercase tracking-wider">İkon: {item.icon}</span>
+                    <span className="text-[10px] text-gray-500 uppercase tracking-wider">{t('iconStr')} {item.icon}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleOpenEdit(item)}
                     className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition"
-                    title="Düzenle"
+                    title={t('edit')}
                   >
                     <Edit2 size={16} />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="p-2 bg-red-950/50 hover:bg-red-900 text-red-400 hover:text-white rounded-lg transition"
-                    title="Sil"
+                    title={t('delete')}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -185,9 +185,9 @@ export default function AdminSkillsPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block text-gray-400 mb-1 font-semibold uppercase">İkon Adı (FontAwesome veya Lucide)</label>
+                <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('iconName')}</label>
                 <p className="text-[10px] text-gray-500 mb-2">
-                  İkon isimlerini <a href="https://lucide.dev/icons/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Lucide Icons</a> web sitesinden bulabilir ve küçük harflerle (örn: <code>code</code>, <code>server</code>, <code>database</code>) buraya yazabilirsiniz.
+                  {t('iconInfo')} <a href="https://lucide.dev/icons/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Lucide Icons</a> (örn: <code>code</code>, <code>server</code>, <code>database</code>)
                 </p>
                 <input
                   type="text"
@@ -201,7 +201,7 @@ export default function AdminSkillsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (TR)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleTr')}</label>
                   <input
                     type="text"
                     required
@@ -211,7 +211,7 @@ export default function AdminSkillsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (EN)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleEn')}</label>
                   <input
                     type="text"
                     required
@@ -221,7 +221,7 @@ export default function AdminSkillsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (DE)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleDe')}</label>
                   <input
                     type="text"
                     required
@@ -231,7 +231,7 @@ export default function AdminSkillsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (RU)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleRu')}</label>
                   <input
                     type="text"
                     required
@@ -294,14 +294,13 @@ export default function AdminSkillsPage() {
                   type="button"
                   onClick={() => setModalOpen(false)}
                   className="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-semibold"
-                >
-                  İptal
+                > {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2.5 bg-white text-black font-semibold rounded-xl hover:bg-gray-200 transition flex items-center gap-2"
                 >
-                  <Save size={16} /> Kaydet
+                  <Save size={16} /> {t('save')}
                 </button>
               </div>
             </form>

@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,6 +9,7 @@ import type { ImageItem } from '@/types';
 import { ArrowLeft, Save, Upload, Image as ImageIcon, Link as LinkIcon, Paperclip, Check, Code } from 'lucide-react';
 
 export default function NewBlogPage() {
+  const t = useTranslations('Admin.blogsNew');
   const router = useRouter();
 
   const [activeLangTab, setActiveLangTab] = useState<'tr' | 'en' | 'de' | 'ru'>('tr');
@@ -61,7 +63,7 @@ export default function NewBlogPage() {
 
       setFormData((prev) => ({ ...prev, img_url: uploadedUrl }));
     } catch (err) {
-      alert('Görsel yüklenirken bir hata oluştu.');
+      alert(t('errorImg'));
     } finally {
       setUploadingImage(false);
     }
@@ -90,7 +92,7 @@ export default function NewBlogPage() {
         attachments: [...prev.attachments, { title: file.name, url }],
       }));
     } catch (err) {
-      alert('Dosya yüklenirken bir hata oluştu.');
+      alert(t('errorFile'));
     } finally {
       setUploadingDocument(false);
     }
@@ -113,7 +115,7 @@ export default function NewBlogPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.img_url) {
-      alert('Lütfen bir kapak görseli yükleyin veya galeriden seçin.');
+      alert(t('errorCover'));
       return;
     }
 
@@ -122,7 +124,7 @@ export default function NewBlogPage() {
       await api.post('/blogs', formData);
       router.push('/admin/blogs');
     } catch (err) {
-      alert('Blog yazısı kaydedilirken bir hata oluştu.');
+      alert(t('errorSave'));
     } finally {
       setSaving(false);
     }
@@ -140,8 +142,8 @@ export default function NewBlogPage() {
             <ArrowLeft size={18} />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold font-heading tracking-wider">YENİ BLOG YAZISI EKLE</h1>
-            <p className="text-xs text-gray-400">Görsel sürükle-bırak, çoklu dil ve paragraf ayrıştırıcılı editör</p>
+            <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
+            <p className="text-xs text-gray-400">{t('subtitle')}</p>
           </div>
         </div>
 
@@ -150,7 +152,7 @@ export default function NewBlogPage() {
           disabled={saving}
           className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold text-xs rounded-xl hover:bg-gray-200 transition shadow-lg disabled:opacity-50"
         >
-          <Save size={16} /> {saving ? 'Kaydediliyor...' : 'Yayınla / Kaydet'}
+          <Save size={16} /> {saving ? t('savingBtn') : t('saveBtn')}
         </button>
       </div>
 
@@ -159,14 +161,14 @@ export default function NewBlogPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg space-y-4">
           <div className="flex items-center justify-between">
             <label className="font-heading font-bold text-sm text-gray-200 uppercase tracking-wider flex items-center gap-2">
-              <ImageIcon size={18} className="text-emerald-400" /> Blog Kapak Görseli
+              <ImageIcon size={18} className="text-emerald-400" /> {t('coverImg')}
             </label>
             <button
               type="button"
               onClick={() => setShowGallery(!showGallery)}
               className="text-xs text-blue-400 hover:underline font-mono"
             >
-              {showGallery ? 'Galeriyi Kapat' : 'Mevcut Galeriden Seç'}
+              {showGallery ? t('closeGallery') : t('openGallery')}
             </button>
           </div>
 
@@ -189,7 +191,7 @@ export default function NewBlogPage() {
                   <Upload size={24} />
                 </div>
                 <div className="text-xs text-gray-300">
-                  Resim dosyasını <span className="font-bold text-white">buraya sürükleyin</span> veya tıklayın
+                  {t('dragImgStr')}
                 </div>
                 <input
                   type="file"
@@ -209,7 +211,7 @@ export default function NewBlogPage() {
           {/* Gallery Picker Drawer */}
           {showGallery && (
             <div className="pt-4 border-t border-gray-800 space-y-3">
-              <span className="text-xs text-gray-400 font-semibold uppercase">Sistemdeki Yüklü Görseller</span>
+              <span className="text-xs text-gray-400 font-semibold uppercase">{t('systemImgs')}</span>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-gray-950 rounded-xl border border-gray-800">
                 {galleryImages.map((img) => {
                   const url = img.image_url.startsWith('http') ? img.image_url : `http://localhost:3005${img.image_url}`;
@@ -250,7 +252,7 @@ export default function NewBlogPage() {
                     : 'bg-gray-950 text-gray-400 hover:text-white border border-gray-800'
                     }`}
                 >
-                  {lang === 'tr' ? 'Türkçe' : lang === 'en' ? 'English' : lang === 'de' ? 'Deutsch' : 'Русский'}
+                  {lang === 'tr' ? t('langTr') : lang === 'en' ? t('langEn') : lang === 'de' ? t('langDe') : t('langRu')}
                 </button>
               ))}
             </div>
@@ -260,7 +262,7 @@ export default function NewBlogPage() {
               type="button"
               onClick={insertParagraphDelimiter}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 rounded-lg text-xs font-mono transition"
-              title="Yeni paragraf ayrıştırıcısı ekle"
+              title={t('addPara')}
             >
               <Code size={14} /> Paragraf Sonu (/******/) Ekle
             </button>
@@ -270,21 +272,21 @@ export default function NewBlogPage() {
           <div className="space-y-4 text-xs">
             <div>
               <label className="block text-gray-400 mb-1 font-semibold uppercase">
-                Blog Başlığı ({activeLangTab.toUpperCase()})
+                {t('blogTitle')} ({activeLangTab.toUpperCase()})
               </label>
               <input
                 type="text"
                 required
                 value={formData[`title_${activeLangTab}` as keyof typeof formData] as string}
                 onChange={(e) => setFormData({ ...formData, [`title_${activeLangTab}`]: e.target.value })}
-                placeholder="Makale Başlığı..."
+                placeholder={t('titlePl')}
                 className="w-full bg-gray-950 border border-gray-800 rounded-xl p-3.5 text-sm text-white outline-none focus:border-white"
               />
             </div>
 
             <div>
               <label className="block text-gray-400 mb-1 font-semibold uppercase flex items-center justify-between">
-                <span>Blog İçeriği ({activeLangTab.toUpperCase()})</span>
+                <span>{t('blogContent')} ({activeLangTab.toUpperCase()})</span>
                 <span className="text-[10px] text-amber-400 font-mono">
                   Paragraf bölmek için <code>/******/</code> kullanabilirsiniz
                 </span>
@@ -308,7 +310,7 @@ export default function NewBlogPage() {
           <div className="space-y-4">
             <h3 className="font-heading font-bold text-sm text-gray-200 uppercase tracking-wider flex items-center justify-between">
               <span className="flex items-center gap-2"><Paperclip size={18} className="text-blue-400" /> Ek Dosyalar</span>
-              <span className="text-[10px] text-gray-400 font-mono font-normal normal-case">Sürükle bırak yapabilirsiniz</span>
+              <span className="text-[10px] text-gray-400 font-mono font-normal normal-case">{t('dragDrop')}</span>
             </h3>
 
             <div
@@ -317,11 +319,11 @@ export default function NewBlogPage() {
               className="border-2 border-dashed border-gray-700 hover:border-blue-400 rounded-xl p-6 text-center bg-gray-950/40 transition cursor-pointer flex flex-col items-center justify-center relative min-h-[100px]"
             >
               {uploadingDocument ? (
-                <div className="text-blue-400 font-mono">Dosya Yükleniyor...</div>
+                <div className="text-blue-400 font-mono">{t('loadingFile')}</div>
               ) : (
                 <>
                   <div className="text-gray-400 mb-2"><Upload size={20} className="mx-auto" /></div>
-                  <div className="text-gray-300">Dosyaları buraya sürükleyin veya seçin</div>
+                  <div className="text-gray-300">{t('dragFiles')}</div>
                   <input
                     type="file"
                     multiple
@@ -344,7 +346,7 @@ export default function NewBlogPage() {
                         newAtts[idx].title = e.target.value;
                         setFormData({ ...formData, attachments: newAtts });
                       }}
-                      placeholder="Başlık (örn: Sunum Dosyası)"
+                      placeholder={t('docPl')}
                       className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white outline-none flex-1"
                     />
                     <input
@@ -357,9 +359,7 @@ export default function NewBlogPage() {
                       type="button"
                       onClick={() => setFormData({ ...formData, attachments: formData.attachments.filter((_, i) => i !== idx) })}
                       className="text-red-400 hover:text-red-300 px-3"
-                    >
-                      Sil
-                    </button>
+                    >{t('delete')}</button>
                   </div>
                 ))}
               </div>
@@ -372,14 +372,14 @@ export default function NewBlogPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-heading font-bold text-sm text-gray-200 uppercase tracking-wider flex items-center gap-2">
-                <LinkIcon size={18} className="text-purple-400" /> Dış Kaynak Bağlantıları
+                <LinkIcon size={18} className="text-purple-400" /> {t('extLinks')}
               </h3>
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, links: [...formData.links, { title: '', url: '' }] })}
                 className="text-purple-400 hover:text-purple-300 font-mono uppercase font-semibold"
               >
-                + Yeni Bağlantı Ekle
+                + {t('addLink')}
               </button>
             </div>
 
@@ -395,7 +395,7 @@ export default function NewBlogPage() {
                         newLinks[idx].title = e.target.value;
                         setFormData({ ...formData, links: newLinks });
                       }}
-                      placeholder="Başlık (örn: Kaynak Kodları)"
+                      placeholder={t('linkPl')}
                       className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white outline-none flex-1"
                     />
                     <input
@@ -413,15 +413,13 @@ export default function NewBlogPage() {
                       type="button"
                       onClick={() => setFormData({ ...formData, links: formData.links.filter((_, i) => i !== idx) })}
                       className="text-red-400 hover:text-red-300 px-3"
-                    >
-                      Sil
-                    </button>
+                    >{t('delete')}</button>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-gray-500 italic text-center py-4 bg-gray-950 rounded-xl border border-dashed border-gray-800">
-                Henüz bağlantı eklenmemiş.
+                {t('noLinks')}
               </div>
             )}
           </div>

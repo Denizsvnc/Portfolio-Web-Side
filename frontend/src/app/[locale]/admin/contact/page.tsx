@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false, loading: () => <p>Editör yükleniyor...</p> });
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false, loading: () => <p>Loading editor...</p> });
 
 interface Message {
   id: string;
@@ -98,7 +98,7 @@ export default function ContactInboxPage() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
-      toast.success('Cevap e-postası başarıyla gönderildi!');
+      toast.success(t('successEmail'));
       
       setMessages(messages.map(m => m.id === selectedMessage.id ? { ...m, is_replied: true } : m));
       
@@ -109,7 +109,7 @@ export default function ContactInboxPage() {
       setReplyBody('');
       setAttachments([]);
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'E-posta gönderilirken hata oluştu. SMTP ayarlarını kontrol edin.');
+      toast.error(err.response?.data?.message || t('errorEmail'));
     } finally {
       setSendingReply(false);
     }
@@ -132,7 +132,7 @@ export default function ContactInboxPage() {
       <div className="w-full md:w-1/3 bg-gray-900 border border-gray-800 rounded-2xl flex flex-col overflow-hidden h-[85vh]">
         <div className="p-4 border-b border-gray-800 flex justify-between items-center bg-gray-950">
           <h1 className="text-xl font-bold font-heading text-white flex items-center gap-2">
-            <Mail size={20} /> Gelen Kutusu
+            <Mail size={20} /> {t('inbox')}
           </h1>
           <Link href="/admin/contact/settings" className="text-xs text-blue-400 hover:underline">
             SMTP Ayarları
@@ -141,7 +141,7 @@ export default function ContactInboxPage() {
         
         <div className="flex-1 overflow-y-auto">
           {loading ? (
-            <div className="p-8 text-center text-gray-500">Yükleniyor...</div>
+            <div className="p-8 text-center text-gray-500">{t('loading')}</div>
           ) : messages.length === 0 ? (
             <div className="p-8 text-center text-gray-500 text-sm">Gelen mesaj bulunmuyor.</div>
           ) : (
@@ -170,7 +170,7 @@ export default function ContactInboxPage() {
                       </span>
                     ) : (
                       <span className="text-[10px] text-gray-500 flex items-center gap-1 font-mono uppercase bg-gray-800 px-2 py-0.5 rounded">
-                        <MailOpen size={10} /> Okundu
+                        <MailOpen size={10} /> {t('read')}
                       </span>
                     )}
                   </div>
@@ -206,19 +206,19 @@ export default function ContactInboxPage() {
               {/* Thread / Sent Replies */}
               {thread.length > 0 && (
                 <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-800 pb-2">Önceki Yanıtlarınız</h3>
-                  {thread.map((t) => {
+                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-800 pb-2">{t('prevReplies')}</h3>
+                  {thread.map((reply) => {
                     let parsedAttachments: any[] = [];
-                    if (t.attachments) {
-                      try { parsedAttachments = JSON.parse(t.attachments); } catch(e){}
+                    if (reply.attachments) {
+                      try { parsedAttachments = JSON.parse(reply.attachments); } catch(e){}
                     }
                     return (
-                      <div key={t.id} className="bg-gray-950 border border-gray-800 p-5 rounded-xl space-y-3">
+                      <div key={reply.id} className="bg-gray-950 border border-gray-800 p-5 rounded-xl space-y-3">
                         <div className="flex justify-between items-center text-xs text-gray-500 border-b border-gray-800/50 pb-2">
-                          <span className="font-bold text-blue-400">Siz yanıtladınız</span>
-                          <span>{new Date(t.created_at.replace('Z', '')).toLocaleString('tr-TR')}</span>
+                          <span className="font-bold text-blue-400">{t('youReplied')}</span>
+                          <span>{new Date(reply.created_at.replace('Z', '')).toLocaleString('tr-TR')}</span>
                         </div>
-                        <div className="text-gray-300 text-sm prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: t.reply_body }} />
+                        <div className="text-gray-300 text-sm prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: reply.reply_body }} />
                         
                         {parsedAttachments.length > 0 && (
                           <div className="pt-3 border-t border-gray-800/50 flex flex-wrap gap-2">
@@ -239,9 +239,9 @@ export default function ContactInboxPage() {
             {/* Reply Composer */}
             <div className="p-6 border-t border-gray-800 bg-gray-950/50 rounded-b-2xl space-y-4 shrink-0">
               <h3 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-2"><Reply size={16} /> Yanıtla</span>
+                <span className="flex items-center gap-2"><Reply size={16} /> {t('replyBtn')}</span>
                 <label className="cursor-pointer text-xs flex items-center gap-1 bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg transition">
-                  <Paperclip size={14} /> Dosya Ekle
+                  <Paperclip size={14} /> {t('addFile')}
                   <input type="file" multiple className="hidden" onChange={handleFileChange} />
                 </label>
               </h3>
@@ -288,7 +288,7 @@ export default function ContactInboxPage() {
                   value={replyBody} 
                   onChange={setReplyBody} 
                   modules={modules}
-                  placeholder="Yanıtınızı buraya yazın... (Link ekleyebilir, metni biçimlendirebilirsiniz)"
+                  placeholder={t('replyPl')}
                   className="h-64 sm:h-80 mb-12 border-none text-base"
                 />
               </div>
@@ -299,7 +299,7 @@ export default function ContactInboxPage() {
                   disabled={sendingReply || !replyBody.trim()}
                   className="px-6 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition shadow-lg flex items-center gap-2"
                 >
-                  {sendingReply ? 'Gönderiliyor...' : 'E-Posta Gönder'}
+                  {sendingReply ? t('sendingReply') : t('sendEmail')}
                 </button>
               </div>
             </div>
@@ -307,7 +307,7 @@ export default function ContactInboxPage() {
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
             <MailOpen size={48} className="mb-4 opacity-50" />
-            <p>Okumak için listeden bir mesaj seçin</p>
+            <p>{t('selectMsg')}</p>
           </div>
         )}
       </div>

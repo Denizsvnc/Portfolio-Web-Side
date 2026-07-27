@@ -29,7 +29,7 @@ export default function AdminBlogsPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Bu blog yazısını silmek istediğinize emin misiniz?')) return;
+    if (!confirm(t('delConfirm'))) return;
     try {
       await api.delete(`/blogs/${id}`);
       fetchBlogs();
@@ -43,7 +43,7 @@ export default function AdminBlogsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-gray-800">
         <div>
           <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
-          <p className="text-xs text-gray-400 mt-1">Blog içeriklerinin, okunma ve paylaşılma sayaçlarının yönetimi</p>
+          <p className="text-xs text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -57,13 +57,13 @@ export default function AdminBlogsPage() {
             href="/admin/blogs/new"
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-black font-semibold text-xs rounded-xl hover:bg-gray-200 transition shadow-lg"
           >
-            <Plus size={16} /> Yeni Blog Yazısı Ekle
+            <Plus size={16} /> {t('addNew')}
           </Link>
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500 text-sm">Yükleniyor...</div>
+        <div className="text-center py-12 text-gray-500 text-sm">{t('loading')}</div>
       ) : items.length === 0 ? (
         <div className="text-center py-12 bg-gray-900 border border-gray-800 rounded-2xl text-gray-500 text-sm">
           {t('noBlogs')}
@@ -84,10 +84,10 @@ export default function AdminBlogsPage() {
                   <h3 className="font-bold text-base text-white font-heading">{item.title_tr}</h3>
                   <div className="flex items-center gap-4 text-xs text-gray-400 mt-1">
                     <span className="flex items-center gap-1 text-emerald-400 font-mono">
-                      <Eye size={14} /> {item.views} okunma
+                      <Eye size={14} /> {item.views} {t('views')}
                     </span>
                     <span className="flex items-center gap-1 text-amber-400 font-mono">
-                      <Share2 size={14} /> {item.shares} paylaşım
+                      <Share2 size={14} /> {item.shares} {t('shares')}
                     </span>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function AdminBlogsPage() {
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="p-2 bg-red-950/50 hover:bg-red-900 text-red-400 hover:text-white rounded-lg transition"
-                    title="Sil"
+                    title={t('delete')}
                   >
                     <Trash2 size={16} />
                   </button>

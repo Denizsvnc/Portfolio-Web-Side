@@ -5,8 +5,10 @@ import { api } from '@/lib/api';
 import { Server, Lock, Mail, User, Shield, ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { useTranslations } from 'next-intl';
 
 export default function ContactSettingsPage() {
+  const t = useTranslations('Admin.smtp');
   const [formData, setFormData] = useState({
     host: '',
     port: 465,
@@ -40,15 +42,15 @@ export default function ContactSettingsPage() {
     setSaving(true);
     try {
       await api.put('/contact/settings', formData);
-      toast.success('SMTP Ayarları başarıyla kaydedildi!');
+      toast.success(t('success'));
     } catch (err) {
-      toast.error('Ayarlar kaydedilirken hata oluştu.');
+      toast.error(t('error'));
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return <div className="p-8 text-white">Yükleniyor...</div>;
+  if (loading) return <div className="p-8 text-white">{t('loading')}</div>;
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-16 pt-8">
@@ -60,8 +62,8 @@ export default function ContactSettingsPage() {
           <ArrowLeft size={18} />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold font-heading text-white tracking-wider">SMTP Ayarları</h1>
-          <p className="text-gray-400 text-sm mt-1">Ziyaretçilere e-posta ile yanıt verebilmek için sunucu ayarlarınızı yapılandırın.</p>
+          <h1 className="text-3xl font-bold font-heading text-white tracking-wider">{t('title')}</h1>
+          <p className="text-gray-400 text-sm mt-1">{t('subtitle')}</p>
         </div>
       </div>
 
@@ -98,7 +100,7 @@ export default function ContactSettingsPage() {
 
           <div className="space-y-2">
             <label className="block text-gray-400 font-semibold uppercase text-xs flex items-center gap-2">
-              <User size={14} /> Kullanıcı Adı (E-Posta)
+              <User size={14} /> {t('username')}
             </label>
             <input
               type="text"
@@ -112,7 +114,7 @@ export default function ContactSettingsPage() {
 
           <div className="space-y-2">
             <label className="block text-gray-400 font-semibold uppercase text-xs flex items-center gap-2">
-              <Lock size={14} /> Şifre / App Password
+              <Lock size={14} /> {t('password')}
             </label>
             <input
               type="password"
@@ -126,7 +128,7 @@ export default function ContactSettingsPage() {
 
           <div className="space-y-2 md:col-span-2 border-t border-gray-800 pt-6 mt-2">
             <label className="block text-gray-400 font-semibold uppercase text-xs flex items-center gap-2">
-              <Mail size={14} /> Gönderici Adresi (From Email)
+              <Mail size={14} /> {t('sender')}
             </label>
             <input
               type="email"
@@ -136,7 +138,7 @@ export default function ContactSettingsPage() {
               placeholder="iletisim@denizsevinc.com.tr"
               className="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white outline-none focus:border-blue-500 transition font-mono"
             />
-            <p className="text-xs text-gray-500 mt-2">Ziyaretçilere giden yanıtlarda görünecek e-posta adresi.</p>
+            <p className="text-xs text-gray-500 mt-2">{t('senderDesc')}</p>
           </div>
 
           <div className="space-y-2 md:col-span-2">
@@ -149,7 +151,7 @@ export default function ContactSettingsPage() {
               />
               <div className="flex flex-col">
                 <span className="text-white font-bold text-sm flex items-center gap-2"><Shield size={14} className="text-emerald-400" /> Secure (SSL/TLS) Kullan</span>
-                <span className="text-xs text-gray-500">465 portu için genellikle aktif, 587 portu için pasif (STARTTLS) olmalıdır.</span>
+                <span className="text-xs text-gray-500">{t('portDesc')}</span>
               </div>
             </label>
           </div>
@@ -163,8 +165,8 @@ export default function ContactSettingsPage() {
                 className="w-5 h-5 accent-blue-500 rounded bg-gray-900 border-gray-700"
               />
               <div className="flex flex-col">
-                <span className="text-white font-bold text-sm flex items-center gap-2"><Mail size={14} className="text-blue-400" /> Otomatik Yönlendirme (Auto-Forward)</span>
-                <span className="text-xs text-gray-500">Ziyaretçilerden gelen yeni mesajları anında <strong>{formData.user || "kendi adresinize"}</strong> e-posta olarak iletir.</span>
+                <span className="text-white font-bold text-sm flex items-center gap-2"><Mail size={14} className="text-blue-400" /> {t('autoForwardTitle')}</span>
+                <span className="text-xs text-gray-500">{t('autoForwardDesc').replace(t('ownAddress'), '')} <strong>{formData.user || t('ownAddress')}</strong></span>
               </div>
             </label>
           </div>
@@ -176,7 +178,7 @@ export default function ContactSettingsPage() {
             disabled={saving}
             className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition flex items-center gap-2 shadow-lg disabled:opacity-50"
           >
-            {saving ? 'Kaydediliyor...' : <><Save size={18} /> Ayarları Kaydet</>}
+            {saving ? t('saving') : <><Save size={18} /> {t('saveBtn')}</>}
           </button>
         </div>
 

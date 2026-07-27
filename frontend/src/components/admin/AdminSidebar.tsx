@@ -41,7 +41,7 @@ export const AdminSidebar = () => {
           </div>
           <div>
             <h2 className="font-bold text-sm tracking-wider uppercase">DENİZ SEVİNÇ</h2>
-            <span className="text-xs text-gray-400">Yönetim Paneli</span>
+            <span className="text-xs text-gray-400">{t('adminPanel')}</span>
           </div>
         </div>
 
@@ -85,7 +85,7 @@ export const AdminSidebar = () => {
           target="_blank"
           className="flex items-center gap-2 px-4 py-2.5 text-xs text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-800 rounded-lg transition"
         >
-          <Globe size={14} /> Siteye Git
+          <Globe size={14} /> {t('goToSite')}
         </Link>
         <button
           onClick={handleLogout}

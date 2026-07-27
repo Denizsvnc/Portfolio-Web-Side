@@ -100,14 +100,14 @@ export default function AdminProjectsPage() {
                   <Link
                     href={`/admin/projects/edit/${item.id}`}
                     className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition"
-                    title="Düzenle"
+                    title={t('edit')}
                   >
                     <Edit2 size={16} />
                   </Link>
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="p-2 bg-red-950/50 hover:bg-red-900 text-red-400 hover:text-white rounded-lg transition"
-                    title="Sil"
+                    title={t('delete')}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -118,7 +118,7 @@ export default function AdminProjectsPage() {
                 <div className="pt-3 border-t border-gray-800 flex items-center gap-3">
                   {item.button_url && (
                     <a href={item.button_url} target="_blank" rel="noopener noreferrer" className="text-[10px] bg-gray-800 px-2 py-1 rounded text-gray-300 hover:text-white flex items-center gap-1">
-                      <ExternalLink size={10} /> İncele Linki
+                      <ExternalLink size={10} /> {t('reviewLink')}
                     </a>
                   )}
                   {item.demo_url && (

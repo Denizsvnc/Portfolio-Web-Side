@@ -54,7 +54,7 @@ export default function NewProjectPage() {
         attachments: [...prev.attachments, { title: file.name, url }],
       }));
     } catch (err) {
-      alert('Dosya yüklenirken bir hata oluştu.');
+      alert(t('errorUpload'));
     } finally {
       setUploadingDocument(false);
     }
@@ -82,7 +82,7 @@ export default function NewProjectPage() {
       await api.post('/projects', formData);
       router.push('/admin/projects');
     } catch (err) {
-      alert('Proje kaydedilirken bir hata oluştu.');
+      alert(t('errorSave'));
     } finally {
       setSaving(false);
     }
@@ -101,7 +101,7 @@ export default function NewProjectPage() {
           </Link>
           <div>
             <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
-            <p className="text-xs text-gray-400">Detaylı içerik, ek dosyalar ve dış kaynak bağlantıları ile proje oluşturun</p>
+            <p className="text-xs text-gray-400">{t('subtitle')}</p>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ export default function NewProjectPage() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label className="block text-gray-400 mb-1 font-semibold uppercase">İkon (Lucide)</label>
+              <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('iconLabel')}</label>
               <input
                 type="text"
                 value={formData.icon}
@@ -133,7 +133,7 @@ export default function NewProjectPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-400 mb-1 font-semibold uppercase">Kullanılan Teknolojiler</label>
+              <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('techStack')}</label>
               <input
                 type="text"
                 value={formData.tech_stack}
@@ -143,7 +143,7 @@ export default function NewProjectPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-400 mb-1 font-semibold uppercase">Sıra (Queue)</label>
+              <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('queue')}</label>
               <input
                 type="number"
                 value={formData.queue}
@@ -152,7 +152,7 @@ export default function NewProjectPage() {
               />
             </div>
             <div>
-              <label className="block text-gray-400 mb-1 font-semibold uppercase">GitHub/İncele {t('linkUrl')}</label>
+              <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('githubLink')} {t('linkUrl')}</label>
               <input
                 type="text"
                 value={formData.button_url}
@@ -179,7 +179,7 @@ export default function NewProjectPage() {
                   onChange={(e) => setFormData({ ...formData, isSignature: e.target.checked })}
                   className="w-4 h-4 rounded border-gray-800 bg-gray-950 text-emerald-500 focus:ring-emerald-500"
                 />
-                <Star size={16} className={formData.isSignature ? "text-yellow-400" : "text-gray-500"} /> İmza Projesi
+                <Star size={16} className={formData.isSignature ? "text-yellow-400" : "text-gray-500"} /> {t('isSignature')}
               </label>
               <label className="flex items-center gap-2 cursor-pointer text-gray-300">
                 <input
@@ -187,8 +187,7 @@ export default function NewProjectPage() {
                   checked={formData.isActive}
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="w-4 h-4 rounded border-gray-800 bg-gray-950 text-emerald-500 focus:ring-emerald-500"
-                />
-                Aktif (Göster)
+                /> {t('isActive')}
               </label>
             </div>
           </div>
@@ -209,7 +208,7 @@ export default function NewProjectPage() {
                       : 'bg-gray-950 text-gray-400 hover:text-white border border-gray-800'
                   }`}
                 >
-                  {lang === 'tr' ? 'Türkçe' : lang === 'en' ? 'English' : lang === 'de' ? 'Deutsch' : 'Русский'}
+                  {lang === 'tr' ? t('langTr') : lang === 'en' ? t('langEn') : lang === 'de' ? t('langDe') : t('langRu')}
                 </button>
               ))}
             </div>
@@ -234,7 +233,7 @@ export default function NewProjectPage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-gray-400 font-semibold uppercase">
-                  Proje Açıklaması ({activeLangTab.toUpperCase()})
+                  {t('projectDesc')} ({activeLangTab.toUpperCase()})
                 </label>
                 <button
                   type="button"
@@ -249,7 +248,7 @@ export default function NewProjectPage() {
                 required
                 value={formData[`element_${activeLangTab}` as keyof typeof formData] as string}
                 onChange={(e) => setFormData({ ...formData, [`element_${activeLangTab}`]: e.target.value })}
-                placeholder="Proje detaylarını buraya yazın..."
+                placeholder={t('descPlaceholder')}
                 className="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-sm text-white outline-none focus:border-white leading-relaxed font-sans"
               />
             </div>
@@ -257,7 +256,7 @@ export default function NewProjectPage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-gray-400 font-semibold uppercase">
-                  İnovasyon & Özellikler ({activeLangTab.toUpperCase()})
+                  {t('innovation')} ({activeLangTab.toUpperCase()})
                 </label>
                 <button
                   type="button"
@@ -271,7 +270,7 @@ export default function NewProjectPage() {
                 rows={4}
                 value={formData[`innovation_${activeLangTab}` as keyof typeof formData] as string}
                 onChange={(e) => setFormData({ ...formData, [`innovation_${activeLangTab}`]: e.target.value })}
-                placeholder="Yenilikçi özellikleri veya ekstra detayları yazın..."
+                placeholder={t('innovationPlaceholder')}
                 className="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-sm text-white outline-none focus:border-white leading-relaxed font-sans"
               />
             </div>
@@ -285,7 +284,7 @@ export default function NewProjectPage() {
           <div className="space-y-4">
             <h3 className="font-heading font-bold text-sm text-gray-200 uppercase tracking-wider flex items-center justify-between">
               <span className="flex items-center gap-2"><Paperclip size={18} className="text-blue-400" /> Ek Dosyalar</span>
-              <span className="text-[10px] text-gray-400 font-mono font-normal normal-case">Sürükle bırak yapabilirsiniz</span>
+              <span className="text-[10px] text-gray-400 font-mono font-normal normal-case">{t('dragDrop')}</span>
             </h3>
 
             <div
@@ -294,11 +293,11 @@ export default function NewProjectPage() {
               className="border-2 border-dashed border-gray-700 hover:border-blue-400 rounded-xl p-6 text-center bg-gray-950/40 transition cursor-pointer flex flex-col items-center justify-center relative min-h-[100px]"
             >
               {uploadingDocument ? (
-                <div className="text-blue-400 font-mono">Dosya Yükleniyor...</div>
+                <div className="text-blue-400 font-mono">{t('uploading')}</div>
               ) : (
                 <>
                   <div className="text-gray-400 mb-2"><Upload size={20} className="mx-auto" /></div>
-                  <div className="text-gray-300">Dosyaları buraya sürükleyin veya seçin</div>
+                  <div className="text-gray-300">{t('dragFiles')}</div>
                   <input
                     type="file"
                     multiple
@@ -321,7 +320,7 @@ export default function NewProjectPage() {
                         newAtts[idx].title = e.target.value;
                         setFormData({ ...formData, attachments: newAtts });
                       }}
-                      placeholder="Başlık (örn: Sunum Dosyası)"
+                      placeholder={t('docTitlePlaceholder')}
                       className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white outline-none flex-1"
                     />
                     <input
@@ -334,9 +333,7 @@ export default function NewProjectPage() {
                       type="button"
                       onClick={() => setFormData({ ...formData, attachments: formData.attachments.filter((_, i) => i !== idx) })}
                       className="text-red-400 hover:text-red-300 px-3"
-                    >
-                      Sil
-                    </button>
+                    >{t('delete')}</button>
                   </div>
                 ))}
               </div>
@@ -349,14 +346,14 @@ export default function NewProjectPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-heading font-bold text-sm text-gray-200 uppercase tracking-wider flex items-center gap-2">
-                <LinkIcon size={18} className="text-purple-400" /> Dış Kaynak Bağlantıları
+                <LinkIcon size={18} className="text-purple-400" /> {t('externalLinks')}
               </h3>
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, links: [...formData.links, { title: '', url: '' }] })}
                 className="text-purple-400 hover:text-purple-300 font-mono uppercase font-semibold"
               >
-                + Yeni Bağlantı {t('add')}
+                + {t('newLink')} {t('add')}
               </button>
             </div>
 
@@ -372,7 +369,7 @@ export default function NewProjectPage() {
                         newLinks[idx].title = e.target.value;
                         setFormData({ ...formData, links: newLinks });
                       }}
-                      placeholder="Başlık (örn: Kaynak Kodları)"
+                      placeholder={t('linkTitlePlaceholder')}
                       className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white outline-none flex-1"
                     />
                     <input
@@ -390,15 +387,13 @@ export default function NewProjectPage() {
                       type="button"
                       onClick={() => setFormData({ ...formData, links: formData.links.filter((_, i) => i !== idx) })}
                       className="text-red-400 hover:text-red-300 px-3"
-                    >
-                      Sil
-                    </button>
+                    >{t('delete')}</button>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-gray-500 italic text-center py-4 bg-gray-950 rounded-xl border border-dashed border-gray-800">
-                Henüz bağlantı eklenmemiş.
+                {t('noLinks')}
               </div>
             )}
           </div>

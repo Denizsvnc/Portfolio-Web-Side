@@ -116,7 +116,7 @@ export default function AdminAboutPage() {
       });
       setFormData({ ...formData, cv_url: res.data.url });
     } catch (err) {
-      alert('CV yüklenirken bir hata oluştu.');
+      alert(t('errorCV'));
     } finally {
       setUploadingCv(false);
     }
@@ -128,7 +128,7 @@ export default function AdminAboutPage() {
     if (file && file.type.startsWith('image/')) {
       handleFileUpload(file);
     } else if (file) {
-      alert('Lütfen sadece resim dosyası yükleyin.');
+      alert(t('errorImg'));
     }
   };
 
@@ -143,7 +143,7 @@ export default function AdminAboutPage() {
       setModalOpen(false);
       fetchAboutSections();
     } catch (err) {
-      alert('Kaydedilirken hata oluştu.');
+      alert(t('errorSave'));
     }
   };
 
@@ -151,8 +151,8 @@ export default function AdminAboutPage() {
     <div className="space-y-6 max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-gray-800">
         <div>
-          <h1 className="text-2xl font-bold font-heading tracking-wider">HAKKIMDA BÖLÜMÜ YÖNETİMİ</h1>
-          <p className="text-xs text-gray-400 mt-1">Biyografi ve hakkımda içeriklerinin 4 dilde yönetimi</p>
+          <h1 className="text-2xl font-bold font-heading tracking-wider">{t('title')}</h1>
+          <p className="text-xs text-gray-400 mt-1">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -166,16 +166,16 @@ export default function AdminAboutPage() {
             onClick={handleOpenCreate}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-black font-semibold text-xs rounded-xl hover:bg-gray-200 transition shadow-lg"
           >
-            <Plus size={16} /> Yeni Bölüm Ekle
+            <Plus size={16} /> {t('addSection')}
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500 text-sm">Yükleniyor...</div>
+        <div className="text-center py-12 text-gray-500 text-sm">{t('loading')}</div>
       ) : items.length === 0 ? (
         <div className="text-center py-12 bg-gray-900 border border-gray-800 rounded-2xl text-gray-500 text-sm">
-          Henüz hakkında bölümü eklenmemiş.
+          {t('noAbout')}
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
@@ -195,14 +195,14 @@ export default function AdminAboutPage() {
                     <button
                       onClick={() => handleOpenEdit(item)}
                       className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition"
-                      title="Düzenle"
+                      title={t('edit')}
                     >
                       <Edit2 size={16} />
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
                       className="p-2 bg-red-950/50 hover:bg-red-900 text-red-400 hover:text-white rounded-lg transition"
-                      title="Sil"
+                      title={t('delete')}
                     >
                       <Trash2 size={16} />
                     </button>
@@ -239,7 +239,7 @@ export default function AdminAboutPage() {
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div className="space-y-2">
                 <label className="block text-gray-400 mb-1 font-semibold uppercase flex items-center gap-2">
-                  <ImageIcon size={16} /> Profil Fotoğrafı (Dosya veya URL)
+                  <ImageIcon size={16} /> {t('profilePic')}
                 </label>
                 
                 <div
@@ -266,7 +266,7 @@ export default function AdminAboutPage() {
                         <Upload size={20} />
                       </div>
                       <div className="text-xs text-gray-300">
-                        Resmi <span className="font-bold text-white">buraya sürükleyin</span> veya tıklayın
+                        {t('dragImage')}
                       </div>
                       <input
                         type="file"
@@ -287,14 +287,14 @@ export default function AdminAboutPage() {
                   type="text"
                   value={formData.pp_url || ''}
                   onChange={(e) => setFormData({ ...formData, pp_url: e.target.value })}
-                  placeholder="Veya görsel bağlantısı (URL) yapıştırın..."
+                  placeholder={t('placeholderImg')}
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white outline-none focus:border-white mt-2"
                 />
               </div>
 
               <div className="space-y-2 border-t border-gray-800 pt-4">
                 <label className="block text-gray-400 mb-1 font-semibold uppercase flex items-center gap-2">
-                  <Upload size={16} /> Özgeçmiş (CV) Dosyası (PDF)
+                  <Upload size={16} /> {t('cvFile')}
                 </label>
                 
                 <div
@@ -308,9 +308,9 @@ export default function AdminAboutPage() {
                 >
                   {formData.cv_url ? (
                     <div className="space-y-2">
-                      <div className="text-emerald-400 font-bold">✓ CV Yüklendi</div>
-                      <a href={formData.cv_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:underline z-10 relative">Görüntüle</a>
-                      <div className="text-xs text-gray-400 mt-2">Değiştirmek için yeni dosya seçin veya sürükleyin</div>
+                      <div className="text-emerald-400 font-bold">{t('cvLoaded')}</div>
+                      <a href={formData.cv_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:underline z-10 relative">{t('view')}</a>
+                      <div className="text-xs text-gray-400 mt-2">{t('dragNewCv')}</div>
                       <input
                         type="file"
                         accept=".pdf"
@@ -324,7 +324,7 @@ export default function AdminAboutPage() {
                         <Upload size={20} />
                       </div>
                       <div className="text-xs text-gray-300">
-                        PDF dosyasını <span className="font-bold text-white">buraya sürükleyin</span> veya tıklayın
+                        {t('dragPdf')}
                       </div>
                       <input
                         type="file"
@@ -345,14 +345,14 @@ export default function AdminAboutPage() {
                   type="text"
                   value={formData.cv_url || ''}
                   onChange={(e) => setFormData({ ...formData, cv_url: e.target.value })}
-                  placeholder="Veya CV bağlantısı (URL) yapıştırın..."
+                  placeholder={t('placeholderCv')}
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white outline-none focus:border-white mt-2"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (TR)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleTr')}</label>
                   <input
                     type="text"
                     required
@@ -362,7 +362,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (EN)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleEn')}</label>
                   <input
                     type="text"
                     required
@@ -372,7 +372,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (DE)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleDe')}</label>
                   <input
                     type="text"
                     required
@@ -382,7 +382,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Başlık (RU)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('titleRu')}</label>
                   <input
                     type="text"
                     required
@@ -395,7 +395,7 @@ export default function AdminAboutPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Metin Açıklama (TR)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('descTr')}</label>
                   <textarea
                     rows={4}
                     required
@@ -405,7 +405,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Metin Açıklama (EN)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('descEn')}</label>
                   <textarea
                     rows={4}
                     required
@@ -415,7 +415,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Metin Açıklama (DE)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('descDe')}</label>
                   <textarea
                     rows={4}
                     required
@@ -425,7 +425,7 @@ export default function AdminAboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 mb-1 font-semibold uppercase">Metin Açıklama (RU)</label>
+                  <label className="block text-gray-400 mb-1 font-semibold uppercase">{t('descRu')}</label>
                   <textarea
                     rows={4}
                     required
@@ -448,7 +448,7 @@ export default function AdminAboutPage() {
                   type="submit"
                   className="px-5 py-2.5 bg-white text-black font-semibold rounded-xl hover:bg-gray-200 transition flex items-center gap-2"
                 >
-                  <Save size={16} /> Kaydet
+                  <Save size={16} /> {t('save')}
                 </button>
               </div>
             </form>

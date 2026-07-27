@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "${BACKEND_PORT:-3005}:3005"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    networks:
+      - portfolio_net
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    env_file:
+      - ./frontend/.env
+    restart: unless-stopped
+    networks:
+      - portfolio_net
+
+networks:
+  portfolio_net:

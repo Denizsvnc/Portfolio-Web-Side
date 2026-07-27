@@ -39,7 +39,7 @@ export default function AiSettingsPage() {
       const res = await api.get('/ai/plans');
       if (res.data?.success) setPlans(res.data.data);
     } catch (error) {
-      console.error('Planlar yüklenemedi');
+      console.error(t('errorLoadPlans'));
     }
   };
 
@@ -53,7 +53,7 @@ export default function AiSettingsPage() {
         }
       }
     } catch (error) {
-      toast.error('Ayarlar yüklenemedi');
+      toast.error(t('errorLoadSettings'));
     } finally {
       setLoading(false);
     }
@@ -74,11 +74,11 @@ export default function AiSettingsPage() {
     try {
       const res = await api.post('/ai/analyze', { answers });
       if (res.data?.success) {
-        toast.success('Persona başarıyla analiz edildi ve kaydedildi!');
+        toast.success(t('successAnalysis'));
         fetchSettings(); // Refresh
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Persona analizi başarısız oldu');
+      toast.error(error.response?.data?.message || t('errorAnalysis'));
     } finally {
       setAnalyzing(false);
     }
@@ -89,11 +89,11 @@ export default function AiSettingsPage() {
     try {
       const res = await api.post('/ai/trigger', { customTopic: customTopic.trim() || undefined });
       if (res.data?.success) {
-        toast.success('AI Blog üretimi başarıyla tamamlandı!');
+        toast.success(t('successGen'));
         setCustomTopic('');
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Üretim başlatılamadı');
+      toast.error(error.response?.data?.message || t('errorGen'));
     } finally {
       setGenerating(false);
     }
@@ -114,17 +114,17 @@ export default function AiSettingsPage() {
   };
 
   const deletePlan = async (id: string) => {
-    if (!confirm('Planı silmek istediğinize emin misiniz?')) return;
+    if (!confirm(t('deleteConfirm'))) return;
     try {
       await api.delete(`/ai/plans/${id}`);
-      toast.success('Plan silindi');
+      toast.success(t('successDel'));
       fetchPlans();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Plan silinemedi');
+      toast.error(error.response?.data?.message || t('errorDel'));
     }
   };
 
-  if (loading) return <div className="p-8 text-white">Yükleniyor...</div>;
+  if (loading) return <div className="p-8 text-white">{t('loading')}</div>;
 
   return (
     <div className="p-8 max-w-5xl mx-auto text-gray-100">
@@ -134,7 +134,7 @@ export default function AiSettingsPage() {
         </div>
         <div>
           <h1 className="text-3xl font-bold">AI Otomasyon & Persona</h1>
-          <p className="text-gray-400">Blog yazılarınızı yapay zeka ile otomatikleştirin.</p>
+          <p className="text-gray-400">{t('desc')}</p>
         </div>
       </div>
 
@@ -181,39 +181,39 @@ export default function AiSettingsPage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">1. Genel olarak hangi konularda teknik yazılar yazmak istersiniz?</label>
+                <label className="block text-sm font-medium mb-2">{t('q1')}</label>
                 <textarea
                   value={answers.q1 || ''}
                   onChange={(e) => setAnswers({...answers, q1: e.target.value})}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 min-h-[80px]"
-                  placeholder="Örn: React, Node.js, AWS, Web Performansı..."
+                  placeholder={t('p1')}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">2. Hedef kitleniz kimlerden oluşuyor?</label>
+                <label className="block text-sm font-medium mb-2">{t('q2')}</label>
                 <textarea
                   value={answers.q2 || ''}
                   onChange={(e) => setAnswers({...answers, q2: e.target.value})}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 min-h-[80px]"
-                  placeholder="Örn: Orta seviye geliştiriciler, yazılıma yeni başlayanlar..."
+                  placeholder={t('p2')}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">3. Yazı üslubunuz nasıl olmalı?</label>
+                <label className="block text-sm font-medium mb-2">{t('q3')}</label>
                 <textarea
                   value={answers.q3 || ''}
                   onChange={(e) => setAnswers({...answers, q3: e.target.value})}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 min-h-[80px]"
-                  placeholder="Örn: Samimi ve öğretici ama çok kurumsal değil, aralarda espriler olabilir..."
+                  placeholder={t('p3')}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">4. Uzmanlık alanlarınız veya sektörünüz?</label>
+                <label className="block text-sm font-medium mb-2">{t('q4')}</label>
                 <textarea
                   value={answers.q4 || ''}
                   onChange={(e) => setAnswers({...answers, q4: e.target.value})}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 min-h-[80px]"
-                  placeholder="Örn: Full-Stack Web Geliştirme, SaaS Ürünleri..."
+                  placeholder={t('p4')}
                 />
               </div>
             </div>
@@ -224,21 +224,21 @@ export default function AiSettingsPage() {
               className="mt-6 flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-xl font-medium transition"
             >
               <Bot className="w-5 h-5" />
-              {analyzing ? 'Analiz Ediliyor (Gemini AI)...' : 'Cevapları Analiz Et ve Kaydet'}
+              {analyzing ? t('analyzingBtn') : t('analyzeBtn')}
             </button>
 
             {settings?.toneOfVoice && (
               <div className="mt-8 p-6 bg-gray-800/50 border border-gray-700 rounded-xl space-y-4">
                 <h3 className="text-lg font-bold text-emerald-400 flex items-center gap-2">
-                  <Check className="w-5 h-5" /> Çıkarılan Persona Profiliniz
+                  <Check className="w-5 h-5" /> {t('profile')}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 bg-gray-800 rounded-lg">
-                    <span className="text-gray-400 text-sm block mb-1">Üslup (Tone of Voice)</span>
+                    <span className="text-gray-400 text-sm block mb-1">{t('tone')}</span>
                     <p className="font-medium text-white">{settings.toneOfVoice}</p>
                   </div>
                   <div className="p-4 bg-gray-800 rounded-lg">
-                    <span className="text-gray-400 text-sm block mb-1">İlgi Alanları (Interests)</span>
+                    <span className="text-gray-400 text-sm block mb-1">{t('interests')}</span>
                     <p className="font-medium text-white">{settings.interests}</p>
                   </div>
                 </div>
@@ -247,12 +247,12 @@ export default function AiSettingsPage() {
           </div>
         ) : activeTab === 'settings' ? (
           <form onSubmit={saveSettings} className="space-y-6">
-            <h2 className="text-xl font-bold">Otomasyon Ayarları</h2>
+            <h2 className="text-xl font-bold">{t('autoSettings')}</h2>
             
             <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl border border-gray-700">
               <div>
-                <h3 className="font-bold text-white">Sistemi Aktifleştir</h3>
-                <p className="text-sm text-gray-400">Otomatik blog üretimi (Cron Job) çalışsın mı?</p>
+                <h3 className="font-bold text-white">{t('activate')}</h3>
+                <p className="text-sm text-gray-400">{t('activateDesc')}</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input 
@@ -267,23 +267,23 @@ export default function AiSettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Yayınlama Modu</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">{t('pubMode')}</label>
                 <select
                   value={settings?.publishMode || 'draft'}
                   onChange={(e) => setSettings({...settings, publishMode: e.target.value})}
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white"
                 >
-                  <option value="draft">Taslak Olarak Kaydet (Onay İste)</option>
-                  <option value="auto_publish">Otomatik Yayına Al</option>
+                  <option value="draft">{t('optDraft')}</option>
+                  <option value="auto_publish">{t('optPub')}</option>
                 </select>
               </div>
               
               <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-                <label className="block text-sm font-bold mb-4 text-white">Üretim Zamanlaması</label>
+                <label className="block text-sm font-bold mb-4 text-white">{t('timing')}</label>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1">Sıklık</label>
+                    <label className="block text-xs text-gray-400 mb-1">{t('freq')}</label>
                     <select
                       value={settings?.scheduleCron?.endsWith('*') ? 'daily' : 'weekly'}
                       onChange={(e) => {
@@ -294,14 +294,14 @@ export default function AiSettingsPage() {
                       }}
                       className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white text-sm"
                     >
-                      <option value="daily">Her Gün</option>
-                      <option value="weekly">Haftalık</option>
+                      <option value="daily">{t('daily')}</option>
+                      <option value="weekly">{t('weekly')}</option>
                     </select>
                   </div>
                   
                   {!(settings?.scheduleCron?.endsWith('*')) && (
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">Gün</label>
+                      <label className="block text-xs text-gray-400 mb-1">{t('day')}</label>
                       <select
                         value={(settings?.scheduleCron || '0 9 * * 1').split(' ')[4]}
                         onChange={(e) => {
@@ -312,9 +312,9 @@ export default function AiSettingsPage() {
                         className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white text-sm"
                       >
                         <option value="1">Pazartesi</option>
-                        <option value="2">Salı</option>
-                        <option value="3">Çarşamba</option>
-                        <option value="4">Perşembe</option>
+                        <option value="2">{t('tue')}</option>
+                        <option value="3">{t('wed')}</option>
+                        <option value="4">{t('thu')}</option>
                         <option value="5">Cuma</option>
                         <option value="6">Cumartesi</option>
                         <option value="0">Pazar</option>
@@ -349,12 +349,12 @@ export default function AiSettingsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-300">Özel Prompt Kuralları (Sisteme Ek Emirler)</label>
+              <label className="block text-sm font-medium mb-2 text-gray-300">{t('promptRules')}</label>
               <textarea
                 value={settings?.customPrompts || ''}
                 onChange={(e) => setSettings({...settings, customPrompts: e.target.value})}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 min-h-[120px] text-white"
-                placeholder="Örn: Asla sonuç olarak, özetle gibi kelimeler kullanma. Metin içinde kalın puntolarla önemli teknik kelimeleri vurgula..."
+                placeholder={t('promptRulesPl')}
               />
             </div>
 
@@ -373,7 +373,7 @@ export default function AiSettingsPage() {
                     type="text"
                     value={customTopic}
                     onChange={(e) => setCustomTopic(e.target.value)}
-                    placeholder="Örn: Next.js Server Actions"
+                    placeholder={t('topicPl')}
                     className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white text-sm h-12"
                   />
                 </div>
@@ -384,27 +384,27 @@ export default function AiSettingsPage() {
                   className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl font-medium transition flex items-center justify-center gap-2 h-12"
                 >
                   <Play className="w-5 h-5" />
-                  {generating ? 'Üretiliyor...' : t('tabManual')}
+                  {generating ? t('genBtn') : t('tabManual')}
                 </button>
               </div>
             </div>
           </form>
         ) : activeTab === 'calendar' ? (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold">İçerik Takvimi (Blog Planning)</h2>
+            <h2 className="text-xl font-bold">{t('calendarTitle')}</h2>
             <p className="text-gray-400 mb-6">
               Gelecek tarihlerde yapay zekanın yazmasını istediğiniz özel konuları buradan planlayabilirsiniz. Sistem kendi sırası geldiğinde önce buradaki planlı konulara bakar.
             </p>
 
             <form onSubmit={addPlan} className="flex flex-col md:flex-row gap-4 p-4 bg-gray-800 rounded-xl border border-gray-700 items-end">
               <div className="flex-1">
-                <label className="block text-sm font-medium mb-2 text-gray-300">Yazılacak Konu</label>
+                <label className="block text-sm font-medium mb-2 text-gray-300">{t('topicLabel')}</label>
                 <input
                   type="text"
                   required
                   value={newPlanTopic}
                   onChange={(e) => setNewPlanTopic(e.target.value)}
-                  placeholder="Örn: TypeScript'te Generics Kullanımı"
+                  placeholder={t('topicPlaceholder')}
                   className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white"
                 />
               </div>
@@ -429,7 +429,7 @@ export default function AiSettingsPage() {
             <div className="mt-8">
               <h3 className="font-bold text-white mb-4">Bekleyen ve Tamamlanan Planlar</h3>
               {plans.length === 0 ? (
-                <p className="text-gray-500 text-sm">Henüz eklenmiş bir plan bulunmuyor.</p>
+                <p className="text-gray-500 text-sm">{t('noPlan')}</p>
               ) : (
                 <div className="space-y-3">
                   {plans.map((plan: any) => (
@@ -446,16 +446,14 @@ export default function AiSettingsPage() {
                             'bg-red-500/20 text-red-400'
                           }`}>
                             {plan.status === 'pending' ? 'Bekliyor' :
-                             plan.status === 'completed' ? 'Tamamlandı' : 'Hata'}
+                             plan.status === 'completed' ? t('completed') : t('error')}
                           </span>
                         </div>
                       </div>
                       <button
                         onClick={() => deletePlan(plan.id)}
                         className="text-red-400 hover:text-red-300 p-2"
-                      >
-                        Sil
-                      </button>
+                      >{t('delete')}</button>
                     </div>
                   ))}
                 </div>

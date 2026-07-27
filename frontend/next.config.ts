@@ -4,8 +4,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   distDir: 'dist',
-  // @ts-ignore - allowedDevOrigins Next.js tarafından isteniyor ancak tip tanımında eksik olabilir
+
   allowedDevOrigins: ['10.0.0.90'],
 };
 
