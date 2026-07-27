@@ -2,7 +2,7 @@
 import { useTranslations } from 'next-intl';
 
 import React, { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, getImageUrl } from '@/lib/api';
 import type { ImageItem } from '@/types';
 import { Upload, Trash2, Copy, Check, RefreshCw, Image as ImageIcon } from 'lucide-react';
 
@@ -68,7 +68,7 @@ export default function AdminImagesPage() {
   };
 
   const handleCopyUrl = (url: string, id: string) => {
-    const fullUrl = url.startsWith('http') ? url : `http://localhost:2006${url}`;
+    const fullUrl = getImageUrl(url);
     navigator.clipboard.writeText(fullUrl);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
@@ -131,9 +131,7 @@ export default function AdminImagesPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item) => {
-            const displayUrl = item.image_url.startsWith('http')
-              ? item.image_url
-              : `http://127.0.0.1:2006${item.image_url}`;
+            const displayUrl = getImageUrl(item.image_url);
 
             return (
               <div key={item.id} className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg group">
