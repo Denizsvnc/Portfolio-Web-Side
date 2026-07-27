@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { LanguageSync } from '@/components/common/LanguageSync';
 import '@/app/globals.css';
 import { Toaster } from 'react-hot-toast';
 
@@ -72,6 +73,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${saira.variable} ${openSans.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased bg-white text-gray-900 selection:bg-black selection:text-white">
+        <LanguageSync currentLocale={locale} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

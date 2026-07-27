@@ -159,7 +159,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg }) => 
             {(['tr', 'en', 'de', 'ru'] as const).map((lang) => (
               <button
                 key={lang}
-                onClick={() => router.replace({ pathname }, { locale: lang })}
+                onClick={() => {
+                  localStorage.setItem('preferred_lang', lang);
+                  document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`; // Cookie'yi de manuel sağlama alıyoruz
+                  router.replace({ pathname }, { locale: lang });
+                }}
                 className={`uppercase px-2 py-0.5 rounded ${
                   currentLang === lang ? 'bg-white text-black font-bold' : 'text-gray-400 hover:text-white'
                 }`}

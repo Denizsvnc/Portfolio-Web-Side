@@ -18,7 +18,10 @@ export const AdminSidebar = () => {
   };
 
   const switchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    router.replace(pathname, { locale: e.target.value });
+    const lang = e.target.value;
+    localStorage.setItem('preferred_lang', lang);
+    document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`; // Cookie'yi de manuel sağlama alıyoruz
+    router.replace(pathname, { locale: lang });
   };
 
   const navItems = [
