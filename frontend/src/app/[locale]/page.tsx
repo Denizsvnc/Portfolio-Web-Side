@@ -5,6 +5,7 @@ import type { AboutItem, SkillItem, ProjectItem, BlogItem } from '@/types';
 import { Sidebar } from '@/components/public/Sidebar';
 import { Hero } from '@/components/public/Hero';
 import { ContactForm } from '@/components/public/ContactForm';
+import { CustomContactButtons } from '@/components/public/CustomContactButtons';
 import { GithubIcon } from '@/components/common/Icons';
 import { ShareMenu } from '@/components/common/ShareMenu';
 import { Code2, ExternalLink, BookOpen, Share2, Eye, Lightbulb, Star, ArrowRight } from 'lucide-react';
@@ -24,13 +25,13 @@ export default async function PublicHomePage({ params }: Props) {
   const tStatus = await getTranslations({ locale, namespace: 'Status' });
   const tButtons = await getTranslations({ locale, namespace: 'Buttons' });
 
-  // Fetch data concurrently on the server
-  const [aboutRes, skillsRes, projectsRes, blogsRes, settingsRes] = await Promise.all([
+  const [aboutRes, skillsRes, projectsRes, blogsRes, settingsRes, contactSectionsRes] = await Promise.all([
     fetchFromServer('/about'),
     fetchFromServer('/skills'),
     fetchFromServer('/projects'),
     fetchFromServer('/blogs'),
     fetchFromServer('/settings'),
+    fetchFromServer('/contact-sections'),
   ]);
 
   const aboutList: AboutItem[] = aboutRes.data || [];
@@ -299,6 +300,7 @@ export default async function PublicHomePage({ params }: Props) {
 
         {/* Contact Section */}
         <section id="contact" className="py-12 border-t border-gray-200">
+          <CustomContactButtons buttons={contactSectionsRes?.data || []} locale={locale} />
           <ContactForm />
         </section>
 

@@ -14,6 +14,7 @@ import blogsRoutes from "./modules/blogs/blogs.routes";
 import analyticsRoutes from "./modules/analytics/analytics.routes";
 import documentsRoutes from "./modules/documents/documents.routes";
 import contactRoutes from "./modules/contact/contact.routes";
+import contactSectionsRoutes from "./modules/contactSections/contactSections.routes";
 import settingsRoutes from "./modules/settings/settings.routes";
 import aiRoutes from "./modules/ai/ai.route";
 import { initAiCronJob } from "./modules/ai/ai.cron";
@@ -56,6 +57,7 @@ app.use("/api/blogs", blogsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/documents", documentsRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/contact-sections", contactSectionsRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/ai", aiRoutes);
 
