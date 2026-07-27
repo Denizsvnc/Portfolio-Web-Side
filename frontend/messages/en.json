@@ -568,5 +568,10 @@
       "error": "Error saving settings.",
       "loading": "Loading..."
     }
+  },
+  "SEO": {
+    "title": "Deniz Sevinç - Software Developer & Web Designer",
+    "description": "Deniz Sevinç - Software Developer, Full-Stack Web Development, SaaS, Mini ERP, and Modern Web Design. Explore my skills, projects, and CV.",
+    "keywords": "deniz sevinç, software developer, web design, development, developer cv, full-stack, react, next.js, portfolio"
   }
 }

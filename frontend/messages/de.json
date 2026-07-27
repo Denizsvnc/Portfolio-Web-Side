@@ -568,5 +568,10 @@
       "error": "Fehler beim Speichern.",
       "loading": "Wird geladen..."
     }
+  },
+  "SEO": {
+    "title": "Deniz Sevinç - Softwareentwickler & Webdesigner",
+    "description": "Deniz Sevinç - Softwareentwickler, Full-Stack Web Development, SaaS, Mini ERP und modernes Webdesign. Entdecken Sie meine Fähigkeiten, Projekte und meinen Lebenslauf.",
+    "keywords": "deniz sevinç, softwareentwickler, webdesign, entwicklung, entwickler lebenslauf, cv, full-stack, react, next.js, portfolio"
   }
 }

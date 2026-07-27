@@ -568,5 +568,10 @@
       "error": "Ayarlar kaydedilirken hata oluştu.",
       "loading": "Yükleniyor..."
     }
+  },
+  "SEO": {
+    "title": "Deniz Sevinç - Yazılım Geliştirici & Web Tasarımcı",
+    "description": "Deniz Sevinç - Yazılım Geliştirici, Full-Stack Web Development, SaaS, Mini ERP ve Modern Web Site Tasarımı. Yeteneklerimi, projelerimi ve CV'mi inceleyin.",
+    "keywords": "deniz sevinç, yazılım geliştirici, web site tasarımı, development, yazılımcı cv, full-stack, react, next.js, portfolyo"
   }
 }
