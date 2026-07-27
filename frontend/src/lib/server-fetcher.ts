@@ -1,4 +1,4 @@
-const INTERNAL_API_URL = process.env.API_URL_INTERNAL || 'http://127.0.0.1:2006/api';
+const INTERNAL_API_URL = process.env.API_URL_INTERNAL || 'http://127.0.0.1:3005/api';
 
 export async function fetchFromServer(endpoint: string, options?: RequestInit) {
   const url = `${INTERNAL_API_URL}${endpoint}`;
