@@ -72,6 +72,22 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${saira.variable} ${openSans.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased bg-white text-gray-900 selection:bg-black selection:text-white">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Deniz Sevinç",
+              "jobTitle": "Software Developer",
+              "url": "https://denizsevinc.com.tr",
+              "sameAs": [
+                "https://github.com/Denizsvnc"
+              ],
+              "knowsAbout": ["Web Development", "React", "Next.js", "Node.js", "Software Developer", "Yazılım Geliştirici", "Web Tasarımı"]
+            })
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           {children}
           <Toaster position="bottom-right" />
