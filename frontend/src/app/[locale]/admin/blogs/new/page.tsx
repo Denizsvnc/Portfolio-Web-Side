@@ -59,7 +59,7 @@ export default function NewBlogPage() {
       });
       const uploadedUrl = data.data.image_url.startsWith('http')
         ? data.data.image_url
-        : `http://localhost:3005${data.data.image_url}`;
+        : `http://127.0.0.1:2006${data.data.image_url}`;
 
       setFormData((prev) => ({ ...prev, img_url: uploadedUrl }));
     } catch (err) {
@@ -214,7 +214,7 @@ export default function NewBlogPage() {
               <span className="text-xs text-gray-400 font-semibold uppercase">{t('systemImgs')}</span>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-gray-950 rounded-xl border border-gray-800">
                 {galleryImages.map((img) => {
-                  const url = img.image_url.startsWith('http') ? img.image_url : `http://localhost:3005${img.image_url}`;
+                  const url = img.image_url.startsWith('http') ? img.image_url : `http://127.0.0.1:2006${img.image_url}`;
                   return (
                     <div
                       key={img.id}
