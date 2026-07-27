@@ -12,9 +12,9 @@ module.exports = {
     },
     {
       name: 'denizsevinc-frontend',
-      script: 'node',
-      args: 'server.js',
-      cwd: './frontend/dist/standalone',
+      script: 'npm',
+      args: 'start',
+      cwd: './frontend',
       env: {
         NODE_ENV: 'production',
         PORT: 3015,
