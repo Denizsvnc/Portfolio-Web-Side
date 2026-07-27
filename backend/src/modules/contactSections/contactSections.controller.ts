@@ -12,7 +12,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
 
 export const getOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = await service.getContactSectionById(req.params.id);
+    const data = await service.getContactSectionById(req.params.id as string);
     if (!data) return res.status(404).json({ message: "İletişim butonu bulunamadı." });
     return res.status(200).json({ data });
   } catch (error) {
@@ -31,7 +31,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = await service.updateContactSection(req.params.id, req.body);
+    const data = await service.updateContactSection(req.params.id as string, req.body);
     if (!data) return res.status(404).json({ message: "İletişim butonu bulunamadı." });
     return res.status(200).json({ message: "İletişim butonu başarıyla güncellendi.", data });
   } catch (error) {
@@ -41,7 +41,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = await service.deleteContactSection(req.params.id);
+    const data = await service.deleteContactSection(req.params.id as string);
     if (!data) return res.status(404).json({ message: "İletişim butonu bulunamadı." });
     return res.status(200).json({ message: "İletişim butonu başarıyla silindi.", data });
   } catch (error) {
