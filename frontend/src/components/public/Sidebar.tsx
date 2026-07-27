@@ -5,14 +5,16 @@ import { usePathname, useRouter, Link } from '@/i18n/routing';
 import { Phone, Mail, Menu, X, Globe } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, InstagramIcon } from '@/components/common/Icons';
 import { useTranslations } from 'next-intl';
+import * as LucideIcons from 'lucide-react';
 
 interface SidebarProps {
   currentLang: string;
   profileImg?: string;
   siteSettings?: Record<string, string>;
+  contactSections?: any[];
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg, siteSettings }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg, siteSettings, contactSections = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -117,6 +119,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentLang, profileImg, siteS
                 <InstagramIcon size={18} />
               </a>
             )}
+            
+            {/* Custom Contact Sections */}
+            {contactSections.filter(s => s.isActive).map((section) => {
+              const IconComponent = (LucideIcons as any)[section.icon] || LucideIcons.Link;
+              return (
+                <a
+                  key={section.id}
+                  href={section.button_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-200"
+                  title={section[`title_${currentLang}` as keyof typeof section] || section.title_tr}
+                >
+                  <IconComponent size={18} />
+                </a>
+              );
+            })}
           </div>
 
           {/* Navigation Links */}
