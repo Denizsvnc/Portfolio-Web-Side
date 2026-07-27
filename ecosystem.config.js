@@ -7,7 +7,7 @@ module.exports = {
       cwd: './backend',
       env: {
         NODE_ENV: 'production',
-        BACKEND_PORT: 3005
+        BACKEND_PORT: 2006
       }
     },
     {
